@@ -1,10 +1,10 @@
-**/Temp/UnityLockfile
-**/[Ll]ibrary/
-**/[Tt]emp/
-**/[Oo]bj/
-**/[Bb]uild/
-**/[Bb]uilds/
-**/Assets/AssetStoreTools*
+GPPCC12-Game/Temp/UnityLockfile
+GPPCC12-Game/[Ll]ibrary/
+GPPCC12-Game/[Tt]emp/
+GPPCC12-Game/[Oo]bj/
+GPPCC12-Game/[Bb]uild/
+GPPCC12-Game/[Bb]uilds/
+GPPCC12-Game/Assets/AssetStoreTools*
 
 # Visual Studio 2015 cache directory
 GPPCC12-Game/.vs/
