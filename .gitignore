@@ -1,11 +1,3 @@
-/GPPC12-Game/Temp/UnityLockfile
-/GPPC12-Game/[Ll]ibrary/
-/GPPC12-Game/[Tt]emp/
-/GPPC12-Game/[Oo]bj/
-/GPPC12-Game/[Bb]uild/
-/GPPC12-Game/[Bb]uilds/
-/GPPC12-Game/Assets/AssetStoreTools*
-
 # Visual Studio 2015 cache directory
 GPPCC12-Game/.vs/
 
@@ -34,3 +26,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+/GPPCC12-Game/Temp
+/GPPCC12-Game/UnityPackageManager
+/GPPCC12-Game/Library
+/GPPCC12-Game/ProjectSettings
