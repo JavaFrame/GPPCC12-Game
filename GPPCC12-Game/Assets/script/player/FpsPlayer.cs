@@ -65,6 +65,4 @@ public class FpsPlayer : Player
             rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime);
     }
 
-    
-
 }
