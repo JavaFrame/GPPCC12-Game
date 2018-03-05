@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class PlayerSetup : NetworkBehaviour
 {
 
-	public MonoBehaviour[] toDisable;
+	public Behaviour[] toDisable;
 	public Camera sceneCamera;
 
 	// Use this for initialization
