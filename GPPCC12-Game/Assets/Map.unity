@@ -831,7 +831,7 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
-  playerClass: 1
+  playerClass: 0
   players:
   - {fileID: 1843976534516758, guid: eb22a2c6dc08a7443b2ec4fa4e51fe4b, type: 2}
   - {fileID: 1843976534516758, guid: f70300d0be32c9745be6e5fa245461e3, type: 2}
