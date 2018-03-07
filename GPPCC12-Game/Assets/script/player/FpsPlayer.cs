@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class FpsPlayer : Player
 {
+	protected Rigidbody rigidbody;
+	protected Collider colider;
+	public Camera camera;
 
 	public float speed = 5f;
 	public float lookSensitivity = 3f;
@@ -19,6 +22,13 @@ public class FpsPlayer : Player
     public int jumpCounter = 0;
     private float distToGround;
 
+
+	void Start()
+	{
+		rigidbody = GetComponent<Rigidbody>();
+		colider = GetComponent<Collider>();
+		distToGround = colider.bounds.extents.y;
+	}
 
     public override void GeneralUpdate()
     {
@@ -64,5 +74,10 @@ public class FpsPlayer : Player
         if (velocity != Vector3.zero)
             rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime);
     }
+
+	public bool IsOnGround()
+	{
+		return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
+	}
 
 }

@@ -15,7 +15,10 @@ public class PlayerSetup : NetworkBehaviour
 		{
 			foreach (var monoBehaviour in toDisable)
 			{
-				monoBehaviour.enabled = false;
+				if(monoBehaviour != null)
+					monoBehaviour.enabled = false;
+				else
+					Debug.LogWarning("MonoBehaviour is null in gameobject " + gameObject.name);
 			}
 		}
 		else

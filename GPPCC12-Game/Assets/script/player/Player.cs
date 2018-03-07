@@ -2,25 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Collider))]
 public abstract class Player : MonoBehaviour
 {
-	protected Rigidbody rigidbody;
-    protected Collider colider;
-    protected Camera camera;
 
-    private float distToGround;
-
-
-	// Use this for initialization
-	void Start ()
-	{
-		rigidbody = GetComponent<Rigidbody>();
-		colider = GetComponent<Collider>();
-		distToGround = colider.bounds.extents.y;
-	}
-	
 	// Update is called once per frame
 	void Update ()
 	{
@@ -38,9 +22,9 @@ public abstract class Player : MonoBehaviour
 
     public abstract void UpdateMovement();
 
-	public float ClampAngle(float angle, float min, float max)
+	public static float ClampAngle(float angle, float min, float max)
 	{
- 
+
 		if (angle < 90 || angle > 270)
 		{       // if angle in the critic region...
 			if (angle > 180) angle -= 360;  // convert all angles to -180..+180
@@ -51,9 +35,4 @@ public abstract class Player : MonoBehaviour
 		if (angle < 0) angle += 360;  // if angle negative, convert to 0..360
 		return angle;
 	}
-
-	public bool IsOnGround()
-	{
-		return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
-    }
 }
