@@ -5,10 +5,24 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// This class handels the spawning of the players
+/// </summary>
 public class PlayerClassInitManager : NetworkManager
 {
+	/// <summary>
+	/// The player class you chosen.
+	/// </summary>
 	public PlayerClass playerClass;
+
+	/// <summary>
+	/// All class prefabs to spawn them
+	/// </summary>
 	public GameObject[] players;
+
+	/// <summary>
+	/// the current PlayerClass GameObject which was spawned 
+	/// </summary>
 	public GameObject currentGO;
 
 
@@ -29,7 +43,9 @@ public class PlayerClassInitManager : NetworkManager
 	}
 
 
-
+	/// <summary>
+	/// The possible player classes
+	/// </summary>
 	public enum PlayerClass
 	{
 		Fps,

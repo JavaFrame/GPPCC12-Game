@@ -5,27 +5,73 @@ using System.Diagnostics;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
+/// <summary>
+/// Implements the Rts player movement logic
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class RtsPlayer : Player
 {
-	public Camera camera;
+	/// <summary>
+	/// the _camera which has to be set in the editor
+	/// </summary>
+	public Camera _camera;
 
+	/// <summary>
+	/// The sensitivity of the scroll wheel. The output of the axis "ScrollWheel" is multiplied by this value
+	/// </summary>
 	public float zoomSensitivity = 10;
+
+	/// <summary>
+	/// The level of zoom. One = the nearest possible settings; maxZoomLvl = the fartest possible setting
+	/// </summary>
 	public float zoomLvl = 1;
+
+	/// <summary>
+	/// the maximum zoom lvl
+	/// </summary>
 	public float maxZoomLvl = 10;
+	
+	/// <summary>
+	/// the height which is added removed with one zoom lvl
+	/// </summary>
 	public float zoomHeight = 50f;
+
+	/// <summary>
+	/// the speed of the normal flying
+	/// </summary>
     public float speed = 5f;
+
+	/// <summary>
+	/// the speed of flying fast. Its used when the player holds down shift
+	/// </summary>
 	public float fastSpeed = 10f;
+
+	/// <summary>
+	/// How sensitiv the _camera is
+	/// </summary>
     public float lookSensitivity = 3f;
+
+	/// <summary>
+	/// The maximum and minum
+	/// </summary>
     public float viewRange = 60f;
+
+	/// <summary>
+	/// the hight of one scroll unit
+	/// </summary>
 	private float baseHeight;
 
-	private Rigidbody rigidbody;
+	private Rigidbody _rigidbody;
+
+	/// <summary>
+	/// If the cursor is set to invisble then the position is saved in this variable to be restored, once the cursor is not invisible anymore
+	/// </summary>
+	private Vector2 tempMousePos = Vector2.zero;
 
 	void Start()
 	{
-		rigidbody = GetComponent<Rigidbody>();
-		rigidbody.MovePosition(new Vector3(transform.position.x, transform.position.y + zoomHeight, transform.position.z));
+		_rigidbody = GetComponent<Rigidbody>();
+		_rigidbody.MovePosition(new Vector3(transform.position.x, transform.position.y + zoomHeight, transform.position.z));
 		baseHeight = transform.position.y;
 	}
 
@@ -35,19 +81,22 @@ public class RtsPlayer : Player
 
     public override void UpdateRotation()
     {
-        var yRot = Input.GetAxisRaw("Mouse X");
+	    Cursor.visible = !Input.GetButton("RightMouse");
+		if (!Input.GetButton("RightMouse")) return;
+		var yRot = Input.GetAxisRaw("Mouse X");
         var rotation = new Vector3(0, yRot, 0) * lookSensitivity;
         transform.Rotate(rotation);
     }
 
     public override void UpdateCameraRotation()
     {
+	    if (!Input.GetButton("RightMouse")) return;
         var xRot = Input.GetAxisRaw("Mouse Y");
         var cameraRotation = new Vector3(xRot, 0, 0) * lookSensitivity;
-        if (camera == null) return;
-        camera.transform.Rotate(-cameraRotation);
-        camera.transform.localEulerAngles =
-            new Vector3(ClampAngle(camera.transform.localEulerAngles.x, -viewRange, viewRange), 0, 0);
+        if (_camera == null) return;
+        _camera.transform.Rotate(-cameraRotation);
+        _camera.transform.localEulerAngles =
+            new Vector3(ClampAngle(_camera.transform.localEulerAngles.x, -viewRange, viewRange), 0, 0);
 
 	    float scrollWheel = Input.GetAxisRaw("ScrollWheel");
 	    zoomLvl += -scrollWheel * zoomSensitivity;
@@ -56,9 +105,9 @@ public class RtsPlayer : Player
 		else if (zoomLvl >= maxZoomLvl)
 		    zoomLvl = maxZoomLvl;
 
-	    var transPos = rigidbody.position;
+	    var transPos = _rigidbody.position;
 		//transform.position = new Vector3(transPos.x, baseHeight + zoomHeight * zoomLvl * zoomSensitivity, transPos.z);
-		rigidbody.MovePosition(new Vector3(transPos.x, baseHeight + zoomHeight * zoomLvl * zoomSensitivity, transPos.z));
+		_rigidbody.MovePosition(new Vector3(transPos.x, baseHeight + zoomHeight * zoomLvl * zoomSensitivity, transPos.z));
 		Debug.Log(String.Format("ZoomLvl: {0}, y: {1}", zoomLvl, transform.position.y));
     }
 
