@@ -52,12 +52,14 @@ public abstract class Weapon : Item
 
 	public override void Use()
 	{
-		TriggerEvent.Invoke(this);
+		if(TriggerEvent != null)
+			TriggerEvent.Invoke(this);
 	}
 
 
 	public void Hitted(GameObject victem)
 	{
-		HitEvent.Invoke(victem, parent, this);
+		if(HitEvent != null)
+			HitEvent.Invoke(victem, parent, this);
 	}
 }

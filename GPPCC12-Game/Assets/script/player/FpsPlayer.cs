@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class FpsPlayer : Player
@@ -62,11 +63,17 @@ public class FpsPlayer : Player
     private float distToGround;
 
 
+	/// <summary>
+	/// The weapon of the player
+	/// </summary>
+	public Weapon weapon;
+
 	void Start()
 	{
 		_rigidbody = GetComponent<Rigidbody>();
 		_colider = GetComponent<Collider>();
 		distToGround = _colider.bounds.extents.y;
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 
     public override void GeneralUpdate()
@@ -82,6 +89,11 @@ public class FpsPlayer : Player
         {
             jumpCounter = 0;
         }
+
+		if(Input.GetButtonDown("Shoot")) 
+			_animator.SetBool("shooting", true);
+		else if(Input.GetButtonUp("Shoot")) 
+			_animator.SetBool("shooting", false);
     }
 
     public override void UpdateRotation()

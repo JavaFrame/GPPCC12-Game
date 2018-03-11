@@ -10,6 +10,8 @@ using UnityEngine.Networking;
 /// </summary>
 public class PlayerClassInitManager : NetworkManager
 {
+	public static PlayerClassInitManager playerClassInitManager;
+
 	/// <summary>
 	/// The player class you chosen.
 	/// </summary>
@@ -25,6 +27,11 @@ public class PlayerClassInitManager : NetworkManager
 	/// </summary>
 	public GameObject currentGO;
 
+
+	void Awake()
+	{
+		playerClassInitManager = this;
+	}
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{
@@ -42,6 +49,7 @@ public class PlayerClassInitManager : NetworkManager
 		}
 	}
 
+	
 
 	/// <summary>
 	/// The possible player classes
