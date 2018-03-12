@@ -39,8 +39,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1311213243409288}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 1}
-  m_LocalScale: {x: 21.048344, y: 21.048342, z: 21.048342}
+  m_LocalPosition: {x: -0, y: 1.229, z: 5.661}
+  m_LocalScale: {x: 56.679356, y: 56.679363, z: 56.679363}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -93,7 +93,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1311213243409288}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.0000001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -158,9 +158,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Granade
   description: A Grande for the Grande Launcher
-  damage: 50
+  damage: 10
   parent: {fileID: 0}
-  speed: 10
+  speed: 30
   time: 5
-  initRotation: {x: 0, y: 0, z: 1}
-  parentWeapon: {fileID: 0}
+  initRotation: {x: 0, y: 1, z: 1}
+  parentWeapon: {fileID: 114012241465386974, guid: eb22a2c6dc08a7443b2ec4fa4e51fe4b,
+    type: 2}

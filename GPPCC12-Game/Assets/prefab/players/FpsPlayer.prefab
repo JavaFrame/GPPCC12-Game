@@ -71,25 +71,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1154188945819720
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4761568712927122}
-  - component: {fileID: 33685508796688912}
-  - component: {fileID: 23485974016977706}
-  - component: {fileID: 114457071893209212}
-  - component: {fileID: 114544975574782184}
-  m_Layer: 0
-  m_Name: weapon_grenadelauncher
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1184369474394940
 GameObject:
   m_ObjectHideFlags: 1
@@ -335,6 +316,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1500964019750074
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4052324755146402}
+  - component: {fileID: 33980569144195800}
+  - component: {fileID: 23685429114764382}
+  m_Layer: 0
+  m_Name: weapon_grenadelauncher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1505207210300464
 GameObject:
   m_ObjectHideFlags: 1
@@ -549,6 +547,8 @@ GameObject:
   - component: {fileID: 95488699733527754}
   - component: {fileID: 114108778128079572}
   - component: {fileID: 114161601994102218}
+  - component: {fileID: 114012241465386974}
+  - component: {fileID: 114730242533548544}
   m_Layer: 0
   m_Name: FpsPlayer
   m_TagString: Untagged
@@ -644,6 +644,19 @@ Transform:
   m_Father: {fileID: 4736865615069448}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4052324755146402
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1500964019750074}
+  m_LocalRotation: {x: -0.20808269, y: -0.50531137, z: 0.50018203, w: 0.6716994}
+  m_LocalPosition: {x: 0.045, y: -0.121, z: -0.048}
+  m_LocalScale: {x: 44.266956, y: 44.266945, z: 44.266945}
+  m_Children: []
+  m_Father: {fileID: 4423707144607280}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 13.059001, y: -65.58, z: 64.912}
 --- !u!4 &4070362644069116
 Transform:
   m_ObjectHideFlags: 1
@@ -820,7 +833,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4945718551799604}
-  - {fileID: 4761568712927122}
+  - {fileID: 4052324755146402}
   m_Father: {fileID: 4533637265028766}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1007,19 +1020,6 @@ Transform:
   m_Father: {fileID: 4555961710263686}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4761568712927122
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1154188945819720}
-  m_LocalRotation: {x: -0.20808269, y: -0.50531137, z: 0.50018203, w: 0.6716994}
-  m_LocalPosition: {x: 0.045, y: -0.121, z: -0.048}
-  m_LocalScale: {x: 44.266956, y: 44.266945, z: 44.266945}
-  m_Children: []
-  m_Father: {fileID: 4423707144607280}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 13.059001, y: -65.58, z: 64.912}
 --- !u!4 &4831847609017130
 Transform:
   m_ObjectHideFlags: 1
@@ -1155,7 +1155,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1209415203007948}
   m_LocalRotation: {x: 0.7071068, y: 0.00000013240823, z: -0.00000013240823, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 2.37, z: 0}
+  m_LocalPosition: {x: 0, y: 2.254, z: 0.309}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4915448127284248}
@@ -1177,9 +1177,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.5
   far clip plane: 1000
-  field of view: 60
+  field of view: 88.5
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1197,12 +1197,12 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!23 &23485974016977706
+--- !u!23 &23685429114764382
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1154188945819720}
+  m_GameObject: {fileID: 1500964019750074}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -1231,12 +1231,12 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33685508796688912
+--- !u!33 &33980569144195800
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1154188945819720}
+  m_GameObject: {fileID: 1500964019750074}
   m_Mesh: {fileID: 4300000, guid: 6c4d5e3a7cdc1164391ed81a87912f33, type: 3}
 --- !u!54 &54890109753099768
 Rigidbody:
@@ -1289,6 +1289,24 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114012241465386974
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1843976534516758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a67746d6defdc43b3e2015248b6f0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: GranadeLauncher
+  description: A Granade Launcher
+  damage: 100
+  parent: {fileID: 1843976534516758}
+  projectil: 0
+  spawner: {fileID: 114161601994102218}
+  camera: {fileID: 20930980958295952}
 --- !u!114 &114108778128079572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1319,6 +1337,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e40aec3153ec143b3bb9e60d592da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 1311213243409288, guid: b1b664cf9f4ebd74fbde1e66dbe6cf73, type: 2}
 --- !u!114 &114163099862873952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1355,7 +1375,7 @@ MonoBehaviour:
   - {fileID: 114295727406301636}
   - {fileID: 20930980958295952}
   - {fileID: 81891444347095212}
-  - {fileID: 114457071893209212}
+  - {fileID: 114012241465386974}
   sceneCamera: {fileID: 20930980958295952}
 --- !u!114 &114295727406301636
 MonoBehaviour:
@@ -1379,7 +1399,7 @@ MonoBehaviour:
   lowJumpMultipler: 2
   maxJumpCounter: 1
   jumpCounter: 0
-  weapon: {fileID: 114457071893209212}
+  weapon: {fileID: 114012241465386974}
 --- !u!114 &114375059127774940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1399,24 +1419,6 @@ MonoBehaviour:
   m_MovementThreshold: 0.001
   m_InterpolateRotation: 0.5
   m_InterpolateMovement: 0.5
---- !u!114 &114457071893209212
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1154188945819720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75a67746d6defdc43b3e2015248b6f0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: GranadeLauncher
-  description: A Granade Launcher
-  damage: 100
-  parent: {fileID: 1843976534516758}
-  projectil: {fileID: 114756464701708574, guid: b1b664cf9f4ebd74fbde1e66dbe6cf73,
-    type: 2}
-  spawner: {fileID: 114161601994102218}
 --- !u!114 &114491373332361562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1449,38 +1451,19 @@ MonoBehaviour:
     i15: 75
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114544975574782184
+--- !u!114 &114730242533548544
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1154188945819720}
+  m_GameObject: {fileID: 1843976534516758}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 84b1d1d3f5bed054faccb02e077042cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 235
-    i1: 34
-    i2: 162
-    i3: 198
-    i4: 220
-    i5: 8
-    i6: 167
-    i7: 68
-    i8: 59
-    i9: 46
-    i10: 196
-    i11: 250
-    i12: 78
-    i13: 81
-    i14: 254
-    i15: 75
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  life: 100
+  maxLife: 100
 --- !u!114 &114977175980238528
 MonoBehaviour:
   m_ObjectHideFlags: 1
