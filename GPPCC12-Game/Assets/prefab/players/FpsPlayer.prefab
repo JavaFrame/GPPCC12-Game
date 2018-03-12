@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4906957510700272}
-  - component: {fileID: 95692465667698092}
   m_Layer: 0
   m_Name: graphics
   m_TagString: Untagged
@@ -548,6 +547,7 @@ GameObject:
   - component: {fileID: 114375059127774940}
   - component: {fileID: 95488699733527754}
   - component: {fileID: 114108778128079572}
+  - component: {fileID: 114161601994102218}
   m_Layer: 0
   m_Name: FpsPlayer
   m_TagString: Untagged
@@ -1278,27 +1278,10 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1843976534516758}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95692465667698092
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1015964930639136}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ce1eab57ae9ecf3469d06d719d91bff7, type: 3}
   m_Controller: {fileID: 9100000, guid: a91ce097b3ed5ca428ad49f8d8a6e04a, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -1316,7 +1299,7 @@ MonoBehaviour:
   m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Animator: {fileID: 95692465667698092}
+  m_Animator: {fileID: 95488699733527754}
   m_ParameterSendBits: 31
   param0: 
   param1: 
@@ -1324,6 +1307,17 @@ MonoBehaviour:
   param3: 
   param4: 
   param5: 
+--- !u!114 &114161601994102218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1843976534516758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82e40aec3153ec143b3bb9e60d592da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114163099862873952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1360,6 +1354,7 @@ MonoBehaviour:
   - {fileID: 114295727406301636}
   - {fileID: 20930980958295952}
   - {fileID: 81891444347095212}
+  - {fileID: 114457071893209212}
   sceneCamera: {fileID: 20930980958295952}
 --- !u!114 &114295727406301636
 MonoBehaviour:
@@ -1373,7 +1368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 20930980958295952}
-  _animator: {fileID: 95692465667698092}
+  _animator: {fileID: 95488699733527754}
   speed: 4
   runningSpeed: 10
   lookSensitivity: 3
@@ -1383,7 +1378,7 @@ MonoBehaviour:
   lowJumpMultipler: 2
   maxJumpCounter: 1
   jumpCounter: 0
-  weapon: {fileID: 0}
+  weapon: {fileID: 114457071893209212}
 --- !u!114 &114375059127774940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1420,6 +1415,7 @@ MonoBehaviour:
   parent: {fileID: 1843976534516758}
   projectil: {fileID: 114756464701708574, guid: b1b664cf9f4ebd74fbde1e66dbe6cf73,
     type: 2}
+  spawner: {fileID: 114161601994102218}
 --- !u!114 &114491373332361562
 MonoBehaviour:
   m_ObjectHideFlags: 1

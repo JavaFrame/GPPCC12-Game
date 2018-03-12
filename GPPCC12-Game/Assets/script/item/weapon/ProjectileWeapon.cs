@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 public class ProjectileWeapon : Weapon
 {
 	public Projectile projectil;
+    public Spawner spawner;
 
 	void Start()
 	{
@@ -21,7 +22,8 @@ public class ProjectileWeapon : Weapon
 	
 	private void SpawnProjectile()
 	{
-		GameObject go = Instantiate(projectil.gameObject, transform.position, parent.transform.rotation);
-		
+		//GameObject go = Instantiate(projectil.gameObject, spawner.transform.position, spawner.transform.rotation);
+        Debug.Log("Projectile " + projectil.gameObject);
+        spawner.CmdSpawn(projectil.gameObject, spawner.transform.position, spawner.transform.rotation);
 	}
 }
