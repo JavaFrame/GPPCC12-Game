@@ -15,13 +15,14 @@ public class ProjectileWeapon : Weapon
 
 	private void OnTriggerEvent(Weapon weapon)
 	{
-		SpawnProjectile();
+		CmdSpawnProjectile();
 	}
 
-	
-	private void SpawnProjectile()
+	[Command]
+	private void CmdSpawnProjectile()
 	{
 		GameObject go = Instantiate(projectil.gameObject, transform.position, parent.transform.rotation);
+		NetworkServer.Spawn(go);
 		
 	}
 }

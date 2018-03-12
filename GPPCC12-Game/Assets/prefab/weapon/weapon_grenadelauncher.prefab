@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33346162623103426}
   - component: {fileID: 23892703776794656}
   - component: {fileID: 114515126908058030}
+  - component: {fileID: 114181020455299460}
   m_Layer: 0
   m_Name: weapon_grenadelauncher
   m_TagString: Untagged
@@ -83,6 +84,38 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1946221751422858}
   m_Mesh: {fileID: 4300000, guid: 6c4d5e3a7cdc1164391ed81a87912f33, type: 3}
+--- !u!114 &114181020455299460
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1946221751422858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 85
+    i1: 52
+    i2: 86
+    i3: 98
+    i4: 90
+    i5: 3
+    i6: 35
+    i7: 244
+    i8: 26
+    i9: 58
+    i10: 137
+    i11: 168
+    i12: 205
+    i13: 56
+    i14: 176
+    i15: 60
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114515126908058030
 MonoBehaviour:
   m_ObjectHideFlags: 1
