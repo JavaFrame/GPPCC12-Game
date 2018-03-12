@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public abstract  class Hurtable : MonoBehaviour
+public abstract  class Hurtable : NetworkBehaviour
 {
 	/// <summary>
 	/// the current life of the gameobject to which this component is attached to. 
