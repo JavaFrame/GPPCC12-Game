@@ -17,7 +17,7 @@ public class Projectile : Weapon {
 
 	private Rigidbody _rigidbody;
 
-	private void Start()
+	private void Awake()
 	{
 		startTime = Time.time;
 		_rigidbody = GetComponent<Rigidbody>();
