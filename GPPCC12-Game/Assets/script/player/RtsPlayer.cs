@@ -74,6 +74,11 @@ public class RtsPlayer : Player
 		_rigidbody.MovePosition(new Vector3(transform.position.x, transform.position.y + zoomHeight, transform.position.z));
 		baseHeight = transform.position.y;
         Cursor.visible = true;
+
+        // Tell your Base whom it Should show the GUI
+        GameObject go = GameObject.Find("CoreSphere");
+        UiReferrer _uiReferrer =  go.GetComponent<UiReferrer>();
+        _uiReferrer.canvasGo = this.transform.GetChild(2).gameObject;
 	}
 
     public override void GeneralUpdate()

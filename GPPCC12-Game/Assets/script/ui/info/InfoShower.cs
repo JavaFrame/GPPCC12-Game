@@ -2,6 +2,7 @@
 
 public class InfoShower : MonoBehaviour {
 
+    private GameObject baseGui;
 
     // Update is called once per frame
     void Update() {
@@ -14,16 +15,16 @@ public class InfoShower : MonoBehaviour {
             {
                 GameObject hittedGo = hit.collider.gameObject;
                 UiReferrer referrer = hittedGo.GetComponent<UiReferrer>();
-                if (referrer == null) return;
+                if (referrer == null)
+                {
+                    if (baseGui != null) baseGui.SetActive(false);
+                    return;
+                }
 
                 if (referrer.type == UiReferrer.StructureType.Base)
                 {
-                    GameObject go = referrer.canvasGo;
-                    go.SetActive(true);
-                } else
-                {
-                    GameObject go = referrer.canvasGo;
-                    go.SetActive(false);
+                    baseGui = referrer.canvasGo;
+                    baseGui.SetActive(true);
                 }
             }
         }
