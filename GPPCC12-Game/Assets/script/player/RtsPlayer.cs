@@ -73,6 +73,7 @@ public class RtsPlayer : Player
 		_rigidbody = GetComponent<Rigidbody>();
 		_rigidbody.MovePosition(new Vector3(transform.position.x, transform.position.y + zoomHeight, transform.position.z));
 		baseHeight = transform.position.y;
+        Cursor.visible = true;
 	}
 
     public override void GeneralUpdate()
@@ -80,41 +81,26 @@ public class RtsPlayer : Player
     }
 
     public override void UpdateRotation()
-    {
-	    Cursor.visible = !Input.GetButton("RightMouse");
-		if (!Input.GetButton("RightMouse")) return;
-		var yRot = Input.GetAxisRaw("Mouse X");
-        var rotation = new Vector3(0, yRot, 0) * lookSensitivity;
-        transform.Rotate(rotation);
+    {	   
     }
 
     public override void UpdateCameraRotation()
     {
-	    if (!Input.GetButton("RightMouse")) return;
-        var xRot = Input.GetAxisRaw("Mouse Y");
-        var cameraRotation = new Vector3(xRot, 0, 0) * lookSensitivity;
-        if (_camera == null) return;
-        _camera.transform.Rotate(-cameraRotation);
-        _camera.transform.localEulerAngles =
-            new Vector3(ClampAngle(_camera.transform.localEulerAngles.x, -viewRange, viewRange), 0, 0);
-
 	    float scrollWheel = Input.GetAxisRaw("ScrollWheel");
 	    zoomLvl += -scrollWheel * zoomSensitivity;
-	    if (zoomLvl <= 1)
+        if (zoomLvl <= 1)
 		    zoomLvl = 1;
 		else if (zoomLvl >= maxZoomLvl)
 		    zoomLvl = maxZoomLvl;
 
 	    var transPos = _rigidbody.position;
-		//transform.position = new Vector3(transPos.x, baseHeight + zoomHeight * zoomLvl * zoomSensitivity, transPos.z);
 		_rigidbody.MovePosition(new Vector3(transPos.x, baseHeight + zoomHeight * zoomLvl * zoomSensitivity, transPos.z));
-		Debug.Log(String.Format("ZoomLvl: {0}, y: {1}", zoomLvl, transform.position.y));
     }
 
     public override void UpdateMovement()
     {
         var xMov = Input.GetAxisRaw("Horizontal") * transform.right;
-        var zMov = Input.GetAxisRaw("Vertical") * transform.forward;
+        var zMov = Input.GetAxisRaw("Vertical") * transform.up;
 
 	    var speed = this.speed;
 	    if (Input.GetButton("Run"))
