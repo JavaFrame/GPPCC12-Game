@@ -73,6 +73,7 @@ public class RtsPlayer : Player
 		_rigidbody = GetComponent<Rigidbody>();
 		_rigidbody.MovePosition(new Vector3(transform.position.x, transform.position.y + zoomHeight, transform.position.z));
 		baseHeight = transform.position.y;
+        Cursor.visible = true;
 	}
 
     public override void GeneralUpdate()
@@ -80,12 +81,7 @@ public class RtsPlayer : Player
     }
 
     public override void UpdateRotation()
-    {
-	    Cursor.visible = !Input.GetButton("RightMouse");
-		if (!Input.GetButton("RightMouse")) return;
-		var yRot = Input.GetAxisRaw("Mouse X");
-        var rotation = new Vector3(0, yRot, 0) * lookSensitivity;
-        transform.Rotate(rotation);
+    {	   
     }
 
     public override void UpdateCameraRotation()
@@ -99,7 +95,6 @@ public class RtsPlayer : Player
 
 	    var transPos = _rigidbody.position;
 		_rigidbody.MovePosition(new Vector3(transPos.x, baseHeight + zoomHeight * zoomLvl * zoomSensitivity, transPos.z));
-		Debug.Log(String.Format("ZoomLvl: {0}, y: {1}", zoomLvl, transform.position.y));
     }
 
     public override void UpdateMovement()
