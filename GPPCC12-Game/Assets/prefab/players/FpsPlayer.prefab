@@ -1374,7 +1374,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb7015d489f07a34081b1e0c9db5a02c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toDisable: []
+  toDisable:
+  - {fileID: 114295727406301636}
+  - {fileID: 20930980958295952}
+  - {fileID: 114756464701708574, guid: b1b664cf9f4ebd74fbde1e66dbe6cf73, type: 2}
   sceneCamera: {fileID: 20930980958295952}
 --- !u!114 &114295727406301636
 MonoBehaviour:
@@ -1398,7 +1401,7 @@ MonoBehaviour:
   lowJumpMultipler: 2
   maxJumpCounter: 1
   jumpCounter: 0
-  weapon: {fileID: 0}
+  weapon: {fileID: 114012241465386974}
 --- !u!114 &114375059127774940
 MonoBehaviour:
   m_ObjectHideFlags: 1
