@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract  class Hurtable : NetworkBehaviour
+public abstract class Hurtable : NetworkBehaviour
 {
 	/// <summary>
 	/// the current life of the gameobject to which this component is attached to. 
 	/// If a hurtable component is on a gameobject, then that means, that it can be hit by a weapon.
 	/// </summary>
+	[SyncVar]
 	public int life;
 
 	/// <summary>

@@ -9,7 +9,7 @@ public class InfoShower : MonoBehaviour {
         {
             Debug.Log("Try to hit");
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.current.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 100.0f))
             {
                 GameObject hittedGo = hit.collider.gameObject;
