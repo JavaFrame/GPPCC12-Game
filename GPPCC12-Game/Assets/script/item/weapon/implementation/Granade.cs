@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using SyntaxTree.VisualStudio.Unity.Bridge;
 using UnityEngine;
 
 [RequireComponent(typeof(ParticleSystem))]
