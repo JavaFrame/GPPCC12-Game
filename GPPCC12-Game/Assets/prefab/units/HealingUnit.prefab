@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114901869327821328}
   - component: {fileID: 114812526974606786}
   - component: {fileID: 114112119373552950}
+  - component: {fileID: 65479399479283962}
   m_Layer: 0
   m_Name: HealingUnit
   m_TagString: Untagged
@@ -85,6 +86,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1811339755319974}
   m_Mesh: {fileID: 4300000, guid: acd1c6d265aa3304fbe93e6e3cff471b, type: 3}
+--- !u!65 &65479399479283962
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1811339755319974}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.009913689, y: 0.0054081245, z: 0.02689629}
+  m_Center: {x: 0, y: -0.0011299797, z: 0.012973315}
 --- !u!114 &114112119373552950
 MonoBehaviour:
   m_ObjectHideFlags: 1

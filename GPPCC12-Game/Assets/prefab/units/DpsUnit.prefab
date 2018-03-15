@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114328076881816926}
   - component: {fileID: 114811266834337882}
   - component: {fileID: 114006344353613728}
+  - component: {fileID: 65031203191233112}
   m_Layer: 0
   m_Name: DpsUnit
   m_TagString: Untagged
@@ -85,6 +86,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1224645381263670}
   m_Mesh: {fileID: 4300000, guid: 5f8630f53a1b3984496d96987f6981bf, type: 3}
+--- !u!65 &65031203191233112
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1224645381263670}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.010954674, y: 0.0074985544, z: 0.027194807}
+  m_Center: {x: 0, y: 0.0004226802, z: 0.013802326}
 --- !u!114 &114006344353613728
 MonoBehaviour:
   m_ObjectHideFlags: 1
