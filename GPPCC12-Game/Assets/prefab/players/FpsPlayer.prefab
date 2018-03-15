@@ -1339,6 +1339,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs:
   - {fileID: 1311213243409288, guid: b1b664cf9f4ebd74fbde1e66dbe6cf73, type: 2}
+  - {fileID: 1811339755319974, guid: 5bc1f8ab5e0645b4ba27f130281510ad, type: 2}
+  - {fileID: 1137817421011390, guid: df4b571e9ec09744dbe69b4fff2bac6b, type: 2}
+  - {fileID: 1224645381263670, guid: f80916fb58993584aafcba080c0fbcf3, type: 2}
 --- !u!114 &114163099862873952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1374,8 +1377,7 @@ MonoBehaviour:
   toDisable:
   - {fileID: 114295727406301636}
   - {fileID: 20930980958295952}
-  - {fileID: 81891444347095212}
-  - {fileID: 114012241465386974}
+  - {fileID: 114756464701708574, guid: b1b664cf9f4ebd74fbde1e66dbe6cf73, type: 2}
   sceneCamera: {fileID: 20930980958295952}
 --- !u!114 &114295727406301636
 MonoBehaviour:
@@ -1390,7 +1392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 20930980958295952}
   _animator: {fileID: 95488699733527754}
-  speed: 4
+  speed: 5
   runningSpeed: 10
   lookSensitivity: 3
   viewRange: 60
@@ -1462,8 +1464,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b1d1d3f5bed054faccb02e077042cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 100
-  maxLife: 100
+  life: 200
+  maxLife: 200
 --- !u!114 &114977175980238528
 MonoBehaviour:
   m_ObjectHideFlags: 1

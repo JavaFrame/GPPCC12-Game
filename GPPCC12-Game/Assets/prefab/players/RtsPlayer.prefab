@@ -729,6 +729,7 @@ GameObject:
   - component: {fileID: 135609288606257402}
   - component: {fileID: 54118029586767660}
   - component: {fileID: 114521967825725218}
+  - component: {fileID: 114700080230636670}
   m_Layer: 0
   m_Name: RtsPlayer
   m_TagString: Untagged
@@ -1373,7 +1374,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 20930980958295952}
   - {fileID: 81891444347095212}
-  sceneCamera: {fileID: 20930980958295952}
+  sceneCamera: {fileID: 0}
 --- !u!114 &114238998391536760
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1992,6 +1993,22 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114700080230636670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1843976534516758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82e40aec3153ec143b3bb9e60d592da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 1311213243409288, guid: b1b664cf9f4ebd74fbde1e66dbe6cf73, type: 2}
+  - {fileID: 1811339755319974, guid: 5bc1f8ab5e0645b4ba27f130281510ad, type: 2}
+  - {fileID: 1137817421011390, guid: df4b571e9ec09744dbe69b4fff2bac6b, type: 2}
+  - {fileID: 1224645381263670, guid: f80916fb58993584aafcba080c0fbcf3, type: 2}
 --- !u!114 &114738222681103674
 MonoBehaviour:
   m_ObjectHideFlags: 1

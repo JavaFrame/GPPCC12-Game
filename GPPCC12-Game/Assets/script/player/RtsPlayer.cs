@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 /// <summary>
 /// Implements the Rts player movement logic
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Spawner))]
 public class RtsPlayer : Player
 {
 	/// <summary>
@@ -68,13 +70,45 @@ public class RtsPlayer : Player
 	/// </summary>
 	private Vector2 tempMousePos = Vector2.zero;
 
-	void Start()
+    void Start()
 	{
 		_rigidbody = GetComponent<Rigidbody>();
 		_rigidbody.MovePosition(new Vector3(transform.position.x, transform.position.y + zoomHeight, transform.position.z));
 		baseHeight = transform.position.y;
         Cursor.visible = true;
-	}
+
+        // Tell your Player what your Base is(For Base Gui, Spawning of Units, etc...)
+        GameObject baseObject = GameObject.Find("CoreSphere");
+        if (baseObject != null)
+        {
+            UiReferrer _uiReferrer = baseObject.GetComponent<UiReferrer>();
+            GameObject baseGui = this.transform.GetChild(2).gameObject;
+            _uiReferrer.canvasGo = baseGui;
+
+            GameObject trainDpsUnitGUI = baseGui.transform.GetChild(0).gameObject.transform.GetChild(5).gameObject;
+            GameObject trainTankUnitGUI = baseGui.transform.GetChild(0).gameObject.transform.GetChild(6).gameObject;
+            GameObject trainHealingUnitGUI = baseGui.transform.GetChild(0).gameObject.transform.GetChild(7).gameObject;
+
+            Button btnTrainDpsUnit = trainDpsUnitGUI.transform.GetChild(5).gameObject.GetComponent<Button>();
+            Button btnTrainTankUnit = trainTankUnitGUI.transform.GetChild(5).gameObject.GetComponent<Button>();
+            Button btnTrainHealingUnit = trainHealingUnitGUI.transform.GetChild(5).gameObject.GetComponent<Button>();
+
+            SpawnRtsUnit spawnRtsUnit = baseObject.GetComponent<SpawnRtsUnit>();
+            spawnRtsUnit.spawner = GetComponent<Spawner>();
+
+            if (spawnRtsUnit != null)
+            {
+                btnTrainDpsUnit.onClick.RemoveAllListeners();
+                btnTrainDpsUnit.onClick.AddListener(() => spawnRtsUnit.SpawnUnit("DpsUnit"));
+
+                btnTrainTankUnit.onClick.RemoveAllListeners();
+                btnTrainTankUnit.onClick.AddListener(() => spawnRtsUnit.SpawnUnit("TankUnit"));
+
+                btnTrainHealingUnit.onClick.RemoveAllListeners();
+                btnTrainHealingUnit.onClick.AddListener(() => spawnRtsUnit.SpawnUnit("HealingUnit"));
+            }
+        }
+    }
 
     public override void GeneralUpdate()
     {
@@ -109,5 +143,4 @@ public class RtsPlayer : Player
         if (velocity != Vector3.zero)
             transform.position = transform.position + velocity * Time.fixedDeltaTime;
     }
-
 }
