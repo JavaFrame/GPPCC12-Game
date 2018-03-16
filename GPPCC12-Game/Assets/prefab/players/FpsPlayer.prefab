@@ -1377,7 +1377,8 @@ MonoBehaviour:
   toDisable:
   - {fileID: 114295727406301636}
   - {fileID: 20930980958295952}
-  - {fileID: 114756464701708574, guid: b1b664cf9f4ebd74fbde1e66dbe6cf73, type: 2}
+  - {fileID: 114012241465386974}
+  - {fileID: 81891444347095212}
   sceneCamera: {fileID: 20930980958295952}
 --- !u!114 &114295727406301636
 MonoBehaviour:

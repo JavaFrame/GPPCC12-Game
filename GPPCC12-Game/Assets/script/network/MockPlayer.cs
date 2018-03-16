@@ -9,8 +9,12 @@ public class MockPlayer : NetworkBehaviour
 
 	void Start()
 	{
-		
+		if (isLocalPlayer)
+		{
+			LobbyCanvas.lobbyCanvas.dropdown.onValueChanged.AddListener(arg0 => UpdateSelection());
+		}
 	}
+
 
 	public void UpdateSelection()
 	{
@@ -21,6 +25,15 @@ public class MockPlayer : NetworkBehaviour
 				playerClass = PlayerClass.Fps;
 			else if (sel == 1)
 				playerClass = PlayerClass.Rts;
+
+			CmdSyncPlayerClass(playerClass);
 		}
 	}
+
+	[Command]
+	private void CmdSyncPlayerClass(PlayerClass playerClass)
+	{
+		this.playerClass = playerClass;
+	}
+
 }
