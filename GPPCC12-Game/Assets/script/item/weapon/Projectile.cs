@@ -12,6 +12,8 @@ public class Projectile : Weapon {
 	public delegate void Timeout(Projectile projectile, Weapon w);
 	public event Timeout TimeoutEvent;
 
+	public bool destroyOnHit = true;
+
 	private float startTime;
 	public Weapon parentWeapon;
 
@@ -31,7 +33,7 @@ public class Projectile : Weapon {
 		{
 			if(TimeoutEvent != null)
 				TimeoutEvent.Invoke(this, parentWeapon);
-			Destroy(this.gameObject, 0.4f);
+			//Destroy(this.gameObject, 0.4f);
 		}
 	}
 
@@ -41,12 +43,13 @@ public class Projectile : Weapon {
 		var hurtable = go.GetComponent<Hurtable>();
 		if(hurtable != null)
 		{
-			hurtable.Damaged(Damage, parentWeapon.parent, parentWeapon);
+			hurtable.Damaged(damage, parentWeapon.parent, parentWeapon);
 			Hitted(go);
 		}
 		if (TimeoutEvent != null)
 			TimeoutEvent.Invoke(this, parentWeapon);
-		Destroy(this.gameObject, 0.1f);
+		/*if(destroyOnHit)
+			Destroy(this.gameObject, 0.1f);*/
 	}
 
 

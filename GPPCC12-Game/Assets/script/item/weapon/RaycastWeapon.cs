@@ -28,7 +28,7 @@ public class RaycastWeapon : Weapon
 			Hurtable hurtable = victim.GetComponent<Hurtable>();
 			if (hurtable != null)
 			{
-				hurtable.Damaged(this.Damage, this.gameObject, this);
+				hurtable.Damaged(this.damage, this.gameObject, this);
 				Hitted((victim));
 			}
 		}
