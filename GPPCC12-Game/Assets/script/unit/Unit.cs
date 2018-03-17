@@ -17,6 +17,10 @@ public class Unit : MonoBehaviour
 	/// <param name="newState">the new state</param>
 	public delegate void StateChange(State oldState, State newState);
 
+	public delegate void StateUpdate(State state);
+
+	public delegate bool StateChangeCondition(State state);
+
 	/// <summary>
 	/// All registered States are in this state
 	/// </summary>
@@ -27,6 +31,11 @@ public class Unit : MonoBehaviour
 	/// </summary>
 	[SerializeField]
 	private Dictionary<State, List<StateChange>> _stateEnterListeners = new Dictionary<State, List<StateChange>>();
+
+	/// <summary>
+	/// In this dictionary are all registered states saved with their state update delegateres in a list
+	/// </summary>
+	private Dictionary<State, List<StateUpdate>> _stateUpdateListeners = new Dictionary<State, List<StateUpdate>>();
 
 	[SerializeField]
 	private Dictionary<State, List<StateChange>> _stateLeaveListeners = new Dictionary<State, List<StateChange>>();
@@ -53,6 +62,7 @@ public class Unit : MonoBehaviour
 		get { return _registeredStates; }
 	}
 
+
 	/// <summary>
 	/// In this dictionary are all registered states saved with their state change delegateres in a list
 	/// The listeners are invoked when the state to which they are registered is entered.
@@ -60,6 +70,15 @@ public class Unit : MonoBehaviour
 	protected Dictionary<State, List<StateChange>> StateEnterListeners
 	{
 		get { return _stateEnterListeners; }
+	}
+
+	/// <summary>
+	/// In this dictionary are all registered states saved with their state update delegateres in a list
+	/// The listeners are invoked when the state to which they are registered is updated.
+	/// </summary>
+	public Dictionary<State, List<StateUpdate>> StateUpdateListeners
+	{
+		get { return _stateUpdateListeners; }
 	}
 
 	/// <summary>
@@ -97,6 +116,22 @@ public class Unit : MonoBehaviour
 	{
 		_initState = RegisterState("Init");
 		_currentState = InitState;
+	}
+
+	protected virtual void Update()
+	{
+		UpdateStates();
+	}
+
+	/// <summary>
+	/// Invokes all update state delgaters which are registered under the current state
+	/// </summary>
+	protected virtual void UpdateStates()
+	{
+		foreach (var stateUpdate in StateUpdateListeners[CurrentState])
+		{
+			stateUpdate.Invoke(CurrentState);
+		}
 	}
 
 	/// <summary>
@@ -141,7 +176,28 @@ public class Unit : MonoBehaviour
 	{
 		if (!IsStateRegistered(s))
 			throw new Exception(String.Format("State \"{0}\" wasn't registered!", s.Name));
-		StateLeaveListeners[s].Add(delegater);
+		StateEnterListeners[s].Add(delegater);
+	}
+
+	/// <summary>
+	/// Adds a listener for the given state. It is invoked when the given state is updated
+	/// </summary>
+	/// <param name="s">the state when it is updated should trigger the listener</param>
+	/// <param name="delegater">the listener</param>
+	public void AddStateUpdateListener(State s, StateUpdate delegater)
+	{
+		if (!IsStateRegistered(s))
+			throw new Exception(String.Format("State \"{0}\" wasn't registered!", s.Name));
+		StateUpdateListeners[s].Add(delegater);
+	}
+
+	public void AddStateChangeCondition(State s, State to, StateChangeCondition stateChangeCondition)
+	{
+		AddStateUpdateListener(s, state =>
+		{
+			if (stateChangeCondition.Invoke(CurrentState))
+				this.CurrentState = to;
+		});
 	}
 
 	/// <summary>
