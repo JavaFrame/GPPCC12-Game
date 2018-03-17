@@ -1,75 +1,154 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class InfoShower : MonoBehaviour
+public class InfoShower : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     private GameObject baseGui;
 
-    private int fingerID = -1;
-
     private List<GameObject> selectedUnits = new List<GameObject>();
-
     private List<GameObject> hits = new List<GameObject>();
 
-    private void Awake()
-    {
-        #if !UNITY_EDITOR
-            fingerID = 0; 
-        #endif
-    }
+    [SerializeField]
+    public Image selectionBoxImage;
 
-    // Update is called once per frame
-    void Update()
+    private Vector2 startPosition;
+    private Rect selectionRect;
+
+    // Handles what needs to be selected
+    void checkHits(GameObject hit)
     {
-        if (Input.GetButtonDown("LeftMouse"))
+        foreach (GameObject unit in selectedUnits)
         {
-            checkHits();
+            Renderer renderer = unit.GetComponent<Renderer>();
+            renderer.material.shader = Shader.Find("Diffuse");
+        }
+
+        selectedUnits.Clear();
+        hits.Add(hit);
+
+        foreach (GameObject hittedGo in hits)
+        {
+            UiReferrer referrer = hittedGo.GetComponent<UiReferrer>();
+            if (referrer == null)
+            {
+                if (baseGui != null)
+                {
+                    baseGui.SetActive(false);
+                }
+
+                foreach (GameObject unit in selectedUnits)
+                {
+                    Renderer renderer = unit.GetComponent<Renderer>();
+                    renderer.material.shader = Shader.Find("Diffuse");
+                }
+
+                selectedUnits.Clear();
+                return;
+            }
+
+            if (referrer.type == UiReferrer.StructureType.Base)
+            {
+                foreach (GameObject unit in selectedUnits)
+                {
+                    Renderer renderer = unit.GetComponent<Renderer>();
+                    renderer.material.shader = Shader.Find("Diffuse");
+                }
+
+                selectedUnits.Clear();
+                baseGui = referrer.canvasGo;
+                baseGui.SetActive(true);
+            }
+            else if (referrer.type == UiReferrer.StructureType.HealingUnit ||
+                     referrer.type == UiReferrer.StructureType.TankUnit ||
+                     referrer.type == UiReferrer.StructureType.DpsUnit)
+            {
+                Renderer renderer = hittedGo.GetComponent<Renderer>();
+                renderer.material.shader = Shader.Find("Self-Illumin/Outlined Diffuse");
+
+                selectedUnits.Add(hittedGo);
+
+
+                Debug.Log(selectedUnits);
+            }
+
         }
     }
 
-    void OnMouseDrag()
+    public void OnBeginDrag(PointerEventData eventData)
     {
-        checkHits();
-        Debug.Log(selectedUnits);
+        selectionBoxImage.gameObject.SetActive(true);
+        startPosition = eventData.position;
+        selectionRect = new Rect();
     }
 
-    void checkHits()
+    public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Try to hit");
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (eventData.position.x < startPosition.x)
         {
-            if (Physics.Raycast(ray, out hit, 100.0f) && !EventSystem.current.IsPointerOverGameObject(fingerID))
+            selectionRect.xMin = eventData.position.x;
+            selectionRect.xMax = startPosition.x;
+        }
+        else
+        {
+            selectionRect.xMin = startPosition.x;
+            selectionRect.xMax = eventData.position.x;
+        }
+
+        if (eventData.position.y < startPosition.y)
+        {
+            selectionRect.yMin = eventData.position.y;
+            selectionRect.yMax = startPosition.y;
+        }
+        else
+        {
+            selectionRect.yMin = startPosition.y;
+            selectionRect.yMax = eventData.position.y;
+        }
+
+        selectionBoxImage.rectTransform.offsetMin = selectionRect.min;
+        selectionBoxImage.rectTransform.offsetMax = selectionRect.max;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        selectionBoxImage.gameObject.SetActive(false);
+        // TODO: Handle Multiselect (1st hits.Clear(), 2nd foreach hit in selectionRect{checkhits(hit)})
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        float myDistance = 0;
+
+        foreach (RaycastResult result in results)
+        {
+            if (result.gameObject == gameObject)
             {
-                hits.Clear();
-                selectedUnits.Clear();
-                hits.Add(hit.collider.gameObject);
-                if (baseGui != null) baseGui.SetActive(false);
-
-                foreach (GameObject hittedGo in hits)
-                {
-                    UiReferrer referrer = hittedGo.GetComponent<UiReferrer>();
-                    if (referrer == null)
-                    {
-                        if (baseGui != null) baseGui.SetActive(false);
-                        return;
-                    }
-
-                    if (referrer.type == UiReferrer.StructureType.Base)
-                    {
-                        baseGui = referrer.canvasGo;
-                        baseGui.SetActive(true);
-                    }
-                    else if (referrer.type == UiReferrer.StructureType.HealingUnit ||
-                             referrer.type == UiReferrer.StructureType.TankUnit ||
-                             referrer.type == UiReferrer.StructureType.DpsUnit)
-                    {
-                        selectedUnits.Add(hittedGo);
-                        Debug.Log(selectedUnits);
-                    }
-                }
+                myDistance = result.distance;
+                break;
             }
+        }
+
+        GameObject nextObject = null;
+        float maxDistance = Mathf.Infinity;
+
+        foreach (RaycastResult result in results)
+        {
+            if (result.distance > myDistance && result.distance < maxDistance)
+            {
+                nextObject = result.gameObject;
+                maxDistance = result.distance;
+            }
+        }
+
+        if (nextObject)
+        {
+            ExecuteEvents.Execute<IPointerClickHandler>(nextObject, eventData, (x, y) => { x.OnPointerClick((PointerEventData)y);});
+            // TODO: Handle Leftclick (If leftclick => clear hits + checkHits(), if Leftclick + Control => only checkHits to add new hit possible hit to hits)
         }
     }
 }
