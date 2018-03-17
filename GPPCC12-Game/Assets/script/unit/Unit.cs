@@ -128,6 +128,8 @@ public class Unit : MonoBehaviour
 	/// </summary>
 	protected virtual void UpdateStates()
 	{
+		if(!IsStateRegistered(CurrentState))
+			throw new Exception(String.Format("Currrent state \"{0}\" isnt't registered!", CurrentState.Name));
 		foreach (var stateUpdate in StateUpdateListeners[CurrentState])
 		{
 			stateUpdate.Invoke(CurrentState);
@@ -146,7 +148,12 @@ public class Unit : MonoBehaviour
 			State s = new State(name);
 			RegisteredStates.Add(name, s);
 			StateLeaveListeners.Add(s, new List<StateChange>());
+			StateUpdateListeners.Add(s, new List<StateUpdate>());
 			StateEnterListeners.Add(s, new List<StateChange>());
+		}
+		else
+		{
+			Debug.Log("state already registered");
 		}
 
 		return GetState(name);
@@ -261,8 +268,9 @@ public class Unit : MonoBehaviour
 		public override bool Equals(object obj)
 		{
 			if (obj.GetType() != typeof(State)) return false;
-			State s = obj as State;
-			return false;
+			State other = obj as State;
+			return this.Id == other.Id;
+
 		}
 
 		public override int GetHashCode()
