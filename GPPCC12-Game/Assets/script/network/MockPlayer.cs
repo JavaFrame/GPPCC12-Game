@@ -5,6 +5,14 @@ using UnityEngine.Networking;
 
 public class MockPlayer : NetworkBehaviour
 {
+	/// <summary>
+	/// The player class of the local player
+	/// </summary>
+	public static PlayerClass PlayerClass;
+
+	/// <summary>
+	/// The player class of THIS mock player 
+	/// </summary>
 	public PlayerClass playerClass;
 
 	void Start()
@@ -15,9 +23,12 @@ public class MockPlayer : NetworkBehaviour
 		}
 	}
 
-
+	/// <summary>
+	/// Updates the player class selection
+	/// </summary>
 	public void UpdateSelection()
 	{
+		MockPlayer.PlayerClass = playerClass;
 		if (isLocalPlayer)
 		{
 			int sel = LobbyCanvas.lobbyCanvas.dropdown.value;
@@ -30,6 +41,11 @@ public class MockPlayer : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// This command sets the given player class to the local player class of the mock player.
+	/// Remember its a command. Its send from the client to the server.
+	/// </summary>
+	/// <param name="playerClass">the new player clas</param>
 	[Command]
 	private void CmdSyncPlayerClass(PlayerClass playerClass)
 	{

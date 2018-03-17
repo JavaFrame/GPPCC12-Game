@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(NetworkIdentity))]
 public abstract class Hurtable : NetworkBehaviour
 {
 	/// <summary>
@@ -55,6 +56,7 @@ public abstract class Hurtable : NetworkBehaviour
 	/// <param name="from"></param>
 	public void Damaged(int damage, GameObject from, Weapon weapon)
 	{
+		if (!isServer) return;
 		this.life -= damage;
 		if (this.life <= 0)
 		{

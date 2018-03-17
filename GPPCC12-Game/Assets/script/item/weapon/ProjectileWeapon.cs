@@ -16,6 +16,6 @@ public class ProjectileWeapon : Weapon
 
 	private void OnTriggerEvent(Weapon weapon)
 	{
-		spawner.CmdSpawn((int) projectil, parent.transform.position, camera.transform.rotation);
+		spawner.CmdSpawn((int) projectil, transform.position, camera.transform.rotation);
 	}
 }
