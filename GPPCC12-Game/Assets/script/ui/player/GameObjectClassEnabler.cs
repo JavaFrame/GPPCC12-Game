@@ -10,7 +10,9 @@ public class GameObjectClassEnabler : MonoBehaviour
 	[SerializeField]
 	private Behaviour[] toDisable;
 	// Use this for initialization
-	void Start () {
+	void Start()
+	{
+
 		if (MockPlayer.PlayerClass != expectedPlayerClass)
 		{
 			foreach (var c in toDisable)
@@ -19,5 +21,5 @@ public class GameObjectClassEnabler : MonoBehaviour
 			}
 		}
 	}
-	
+
 }
