@@ -70,6 +70,8 @@ public class RtsPlayer : Player
 	/// </summary>
 	private Vector2 tempMousePos = Vector2.zero;
 
+    public GameObject baseObject;
+
     void Start()
 	{
 		_rigidbody = GetComponent<Rigidbody>();
@@ -78,7 +80,6 @@ public class RtsPlayer : Player
         Cursor.visible = true;
 
         // Tell your Player what your Base is(For Base Gui, Spawning of Units, etc...)
-        GameObject baseObject = GameObject.Find("CoreSphere");
         if (baseObject != null)
         {
             UiReferrer _uiReferrer = baseObject.GetComponent<UiReferrer>();

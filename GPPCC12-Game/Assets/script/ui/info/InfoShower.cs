@@ -6,32 +6,31 @@ public class InfoShower : MonoBehaviour
 {
     private GameObject baseGui;
 
-    private int fingerID = -1;
-
     private List<GameObject> selectedUnits = new List<GameObject>();
 
     private List<GameObject> hits = new List<GameObject>();
-
-    private void Awake()
-    {
-        #if !UNITY_EDITOR
-            fingerID = 0; 
-        #endif
-    }
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetButtonDown("LeftMouse"))
         {
-            checkHits();
-        }
-    }
+            if (Input.GetButton("Control"))
+            {
+                checkHits();
+            } else
+            {
+                foreach (GameObject unit in selectedUnits)
+                {
+                    Renderer renderer = unit.GetComponent<Renderer>();
+                    renderer.material.shader = Shader.Find("Diffuse");
+                }
 
-    void OnMouseDrag()
-    {
-        checkHits();
-        Debug.Log(selectedUnits);
+                selectedUnits.Clear();
+                hits.Clear();
+                checkHits();
+            }
+        }
     }
 
     void checkHits()
@@ -40,24 +39,39 @@ public class InfoShower : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         {
-            if (Physics.Raycast(ray, out hit, 100.0f) && !EventSystem.current.IsPointerOverGameObject(fingerID))
+            if (Physics.Raycast(ray, out hit, 100.0f) && !EventSystem.current.IsPointerOverGameObject())
             {
-                hits.Clear();
-                selectedUnits.Clear();
                 hits.Add(hit.collider.gameObject);
-                if (baseGui != null) baseGui.SetActive(false);
 
                 foreach (GameObject hittedGo in hits)
                 {
                     UiReferrer referrer = hittedGo.GetComponent<UiReferrer>();
                     if (referrer == null)
                     {
-                        if (baseGui != null) baseGui.SetActive(false);
+                        if (baseGui != null)
+                        {
+                            baseGui.SetActive(false);
+                        }
+
+                        foreach (GameObject unit in selectedUnits)
+                        {
+                            Renderer renderer = unit.GetComponent<Renderer>();
+                            renderer.material.shader = Shader.Find("Diffuse");
+                        }
+
+                        selectedUnits.Clear();
+
                         return;
                     }
-
                     if (referrer.type == UiReferrer.StructureType.Base)
                     {
+                        foreach (GameObject unit in selectedUnits)
+                        {
+                            Renderer renderer = unit.GetComponent<Renderer>();
+                            renderer.material.shader = Shader.Find("Diffuse");
+                        }
+
+                        selectedUnits.Clear();
                         baseGui = referrer.canvasGo;
                         baseGui.SetActive(true);
                     }
@@ -66,6 +80,17 @@ public class InfoShower : MonoBehaviour
                              referrer.type == UiReferrer.StructureType.DpsUnit)
                     {
                         selectedUnits.Add(hittedGo);
+
+                        foreach (GameObject unit in selectedUnits)
+                        {
+                            if (baseGui != null)
+                            {
+                                baseGui.SetActive(false);
+                            }
+
+                            Renderer renderer = unit.GetComponent<Renderer>();
+                            renderer.material.shader = Shader.Find("Self-Illumin/Outlined Diffuse");
+                        }
                         Debug.Log(selectedUnits);
                     }
                 }

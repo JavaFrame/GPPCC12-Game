@@ -2005,7 +2005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabs:
-  - {fileID: 1311213243409288, guid: b1b664cf9f4ebd74fbde1e66dbe6cf73, type: 2}
+  - {fileID: 0}
   - {fileID: 1811339755319974, guid: 5bc1f8ab5e0645b4ba27f130281510ad, type: 2}
   - {fileID: 1137817421011390, guid: df4b571e9ec09744dbe69b4fff2bac6b, type: 2}
   - {fileID: 1224645381263670, guid: f80916fb58993584aafcba080c0fbcf3, type: 2}
@@ -2239,6 +2239,7 @@ MonoBehaviour:
   fastSpeed: 15
   lookSensitivity: 3
   viewRange: 60
+  baseObject: {fileID: 1359976526185582, guid: 811ac0befa77f0f4ab6f01fd98c26b79, type: 2}
 --- !u!114 &114831962033466116
 MonoBehaviour:
   m_ObjectHideFlags: 1
