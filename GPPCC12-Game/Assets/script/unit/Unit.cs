@@ -104,6 +104,8 @@ public class Unit : MonoBehaviour
 				throw new Exception("Try to set the currentState to null!");
 			if (!IsStateRegistered(value))
 				throw new Exception(String.Format("State \"{0}\" wasn't registered!", value.Name));
+
+			Debug.Log("Set current state to " + value.Name);
 			var oldState = _currentState;
 			_currentState = value;
 			StateLeaveListeners[oldState].ForEach(change => change.Invoke(oldState, _currentState));
@@ -122,6 +124,8 @@ public class Unit : MonoBehaviour
 	{
 		UpdateStates();
 	}
+
+
 
 	/// <summary>
 	/// Invokes all update state delgaters which are registered under the current state
@@ -288,4 +292,5 @@ public class Unit : MonoBehaviour
 			return nextId++;
 		}
 	}
+
 }

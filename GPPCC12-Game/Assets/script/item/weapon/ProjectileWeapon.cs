@@ -6,8 +6,8 @@ using UnityEngine.Networking;
 public class ProjectileWeapon : Weapon
 {
 	public Spawner.SpawnerPrefab projectil;
-    public Spawner spawner;
-	public Camera camera;
+    //public Spawner spawner;
+	public Transform camera;
 
 	void Start()
 	{
@@ -16,6 +16,6 @@ public class ProjectileWeapon : Weapon
 
 	private void OnTriggerEvent(Weapon weapon)
 	{
-		spawner.CmdSpawn((int) projectil, transform.position, camera.transform.rotation);
+		Spawner.SpawnerInstance.CmdSpawn((int) projectil, transform.position, camera.rotation);
 	}
 }

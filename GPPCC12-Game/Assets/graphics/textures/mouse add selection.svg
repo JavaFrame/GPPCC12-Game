@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="mouse add selection.svg"
+   inkscape:export-filename="D:\Coding\Unity\GPPCC12-Game\GPPCC12-Game\Assets\graphics\textures\mouse add selection.png"
+   inkscape:export-xdpi="97.6912"
+   inkscape:export-ydpi="97.6912">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.83233771"
+     inkscape:cx="105.55218"
+     inkscape:cy="903.02739"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:3.02362204;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 36.658203,244.55273 37.880859,121.2168 c 7.897864,-8.93521 19.735526,-21.14634 32.394528,-33.79883 l 63.20118,63.20118 22.68359,-22.68165 -63.01953,-63.01757 c 12.59424,-12.21834 24.18733,-23.21037 31.61328,-30.07032 z"
+       transform="scale(0.26458333)"
+       id="rect4485"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:export-xdpi="97.6912"
+       inkscape:export-ydpi="97.6912"
+       inkscape:export-filename="E:\Coding\Unity\GPPCC12-Game\GPPCC12-Game\Assets\graphics\textures\mouse add selection.png" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.77794331;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 35.714214,68.712646 v 6.800057 H 28.91466 v 9.188512 h 6.799554 v 6.800012 h 9.189019 v -6.800012 h 6.799554 v -9.188512 h -6.799554 v -6.800057 z"
+       id="rect4491"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="E:\Coding\Unity\GPPCC12-Game\GPPCC12-Game\Assets\graphics\textures\mouse add selection.png"
+       inkscape:export-xdpi="97.6912"
+       inkscape:export-ydpi="97.6912" />
+  </g>
+</svg>

@@ -847,7 +847,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1843976534516758}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 6.674774, y: 18.71, z: 13.93}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4979444762748894}
@@ -1720,6 +1720,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a94ad96e6d9d24ebf0bb18ef185160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiSpawnParent: {fileID: 4979444762748894}
+  cursorSelectionTexture: {fileID: 2800000, guid: dcb730902ac97e7468f6c12a8f74f7b6,
+    type: 3}
+  cursorAddSelectionTexture: {fileID: 2800000, guid: 6e999ca460b5f1541b735f1fa89bbba8,
+    type: 3}
+  camera: {fileID: 20930980958295952}
 --- !u!114 &114548608138592854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2008,7 +2014,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 1811339755319974, guid: 5bc1f8ab5e0645b4ba27f130281510ad, type: 2}
   - {fileID: 1137817421011390, guid: df4b571e9ec09744dbe69b4fff2bac6b, type: 2}
-  - {fileID: 1224645381263670, guid: f80916fb58993584aafcba080c0fbcf3, type: 2}
+  - {fileID: 1731452806960246, guid: c6be1c69efcec864d8e89e7fc2fb9cb6, type: 2}
 --- !u!114 &114738222681103674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2239,7 +2245,6 @@ MonoBehaviour:
   fastSpeed: 15
   lookSensitivity: 3
   viewRange: 60
-  baseObject: {fileID: 1359976526185582, guid: 811ac0befa77f0f4ab6f01fd98c26b79, type: 2}
 --- !u!114 &114831962033466116
 MonoBehaviour:
   m_ObjectHideFlags: 1

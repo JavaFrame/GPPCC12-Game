@@ -65,50 +65,12 @@ public class RtsPlayer : Player
 
 	private Rigidbody _rigidbody;
 
-	/// <summary>
-	/// If the cursor is set to invisble then the position is saved in this variable to be restored, once the cursor is not invisible anymore
-	/// </summary>
-	private Vector2 tempMousePos = Vector2.zero;
-
-    public GameObject baseObject;
-
     void Start()
 	{
 		_rigidbody = GetComponent<Rigidbody>();
 		_rigidbody.MovePosition(new Vector3(transform.position.x, transform.position.y + zoomHeight, transform.position.z));
 		baseHeight = transform.position.y;
         Cursor.visible = true;
-
-        // Tell your Player what your Base is(For Base Gui, Spawning of Units, etc...)
-        if (baseObject != null)
-        {
-            UiReferrer _uiReferrer = baseObject.GetComponent<UiReferrer>();
-            GameObject baseGui = this.transform.GetChild(2).gameObject;
-            _uiReferrer.canvasGo = baseGui;
-
-            GameObject trainDpsUnitGUI = baseGui.transform.GetChild(0).gameObject.transform.GetChild(5).gameObject;
-            GameObject trainTankUnitGUI = baseGui.transform.GetChild(0).gameObject.transform.GetChild(6).gameObject;
-            GameObject trainHealingUnitGUI = baseGui.transform.GetChild(0).gameObject.transform.GetChild(7).gameObject;
-
-            Button btnTrainDpsUnit = trainDpsUnitGUI.transform.GetChild(5).gameObject.GetComponent<Button>();
-            Button btnTrainTankUnit = trainTankUnitGUI.transform.GetChild(5).gameObject.GetComponent<Button>();
-            Button btnTrainHealingUnit = trainHealingUnitGUI.transform.GetChild(5).gameObject.GetComponent<Button>();
-
-            SpawnRtsUnit spawnRtsUnit = baseObject.GetComponent<SpawnRtsUnit>();
-            spawnRtsUnit.spawner = GetComponent<Spawner>();
-
-            if (spawnRtsUnit != null)
-            {
-                btnTrainDpsUnit.onClick.RemoveAllListeners();
-                btnTrainDpsUnit.onClick.AddListener(() => spawnRtsUnit.SpawnUnit("DpsUnit"));
-
-                btnTrainTankUnit.onClick.RemoveAllListeners();
-                btnTrainTankUnit.onClick.AddListener(() => spawnRtsUnit.SpawnUnit("TankUnit"));
-
-                btnTrainHealingUnit.onClick.RemoveAllListeners();
-                btnTrainHealingUnit.onClick.AddListener(() => spawnRtsUnit.SpawnUnit("HealingUnit"));
-            }
-        }
     }
 
     public override void GeneralUpdate()

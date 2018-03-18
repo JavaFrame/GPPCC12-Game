@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class UiReferrer : MonoBehaviour
 {
-	public GameObject canvasGo;
+	public UiParent canvasPrefab;
+	public GameObject canvasInstance;
 
-    public enum StructureType { Base, OilMine, IronMine, HealingUnit, DpsUnit, TankUnit };
-
-    public StructureType type;
+	void Start()
+	{
+		if(canvasPrefab == null)
+			Debug.LogWarning("CanvasPrefab isn't set on GameObject " + gameObject.name);
+	}
 }
