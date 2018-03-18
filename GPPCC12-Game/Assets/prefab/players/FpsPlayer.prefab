@@ -564,6 +564,7 @@ GameObject:
   - component: {fileID: 114108778128079572}
   - component: {fileID: 114161601994102218}
   - component: {fileID: 114730242533548544}
+  - component: {fileID: 114262064185607476}
   m_Layer: 0
   m_Name: FpsPlayer
   m_TagString: Untagged
@@ -1413,6 +1414,19 @@ MonoBehaviour:
   - {fileID: 114168039924299272}
   - {fileID: 81891444347095212}
   sceneCamera: {fileID: 20930980958295952}
+--- !u!114 &114262064185607476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1843976534516758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf0c9cf98e3e52b4ca3aa45a2acca8a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectShader: {fileID: 4800000, guid: 335dd5f5069aca1438c863b7638a4c9e, type: 3}
+  secundarySelectShader: {fileID: 0}
 --- !u!114 &114295727406301636
 MonoBehaviour:
   m_ObjectHideFlags: 1
