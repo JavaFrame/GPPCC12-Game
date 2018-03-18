@@ -14,6 +14,8 @@ public class AttackerUnit : Unit
 
 	private Transform targetTransform;
 
+	private Vector3 targetPos;
+
 	private NavMeshAgent agent;
 
 	[SerializeField]
@@ -28,7 +30,7 @@ public class AttackerUnit : Unit
 	[SerializeField]
 	private Weapon weapon;
 
-	private State idle, walk, walkAttack, attack;
+	private State idle, preWalk, walk, preWalkAttack, walkAttack, attack;
 
 	public Hurtable AttackTarget
 	{
@@ -37,17 +39,21 @@ public class AttackerUnit : Unit
 		{
 			target = value;
 			targetTransform = target.transform;
-			CurrentState = walkAttack;
+			CurrentState = preWalkAttack;
+			agent.destination = targetTransform.position;
+			agent.stoppingDistance = (MinAttackDistance + MaxAttackDistance) / 2;
 		}
 	}
 
-	public Transform WalkTarget
+	public Vector3 WalkTarget
 	{
-		get { return targetTransform; }
+		get { return targetPos; }
 		set
 		{
-			targetTransform = value;
-			CurrentState = walk;
+			targetPos = value;
+			CurrentState = preWalk;
+			agent.destination = value;
+			agent.stoppingDistance = 0.5f;
 		}
 	}
 
@@ -90,21 +96,50 @@ public class AttackerUnit : Unit
 		agent = GetComponent<NavMeshAgent>();
 
 		idle = RegisterState("Idle");
+		preWalk = RegisterState("Pre Walk");
 		walk = RegisterState("Walk");
+		preWalkAttack = RegisterState("Pre Walk-Attack");
 		walkAttack = RegisterState("Walk-Attack");
 		attack = RegisterState("Attack");
 
+		InfoShower.Instance.ChangeSecundarySelectionEvent += (added, removed, selected) =>
+		{
+			if (InfoShower.Instance.SelectedObjects.Contains(gameObject))
+			{
+				foreach (var selGo in selected)
+				{
+					Player p = selGo.GetComponent<Player>();
+					if (p != null)
+					{
+						AttackTarget = p.GetComponent<Hurtable>();
+					}
+				}
+			}
+		};
 
+		InfoShower.Instance.ChangePositionEvent += pos =>
+		{
+			if (InfoShower.Instance.SelectedObjects.Contains(this.gameObject))
+			{
+				WalkTarget = pos;
+
+			}
+		};
+
+		//pre-walk -> walk
+		AddStateChangeCondition(preWalk, walk, state => true);
 
 		//walk update listener
 		AddStateUpdateListener(walk, state =>
 		{
-			if (targetTransform.position != agent.destination)
-				agent.destination = targetTransform.position;
+			if (targetPos!= agent.destination)
+				agent.destination = targetPos;
 		});
 		//walk -> idle
-		AddStateChangeCondition(walk, idle, state => agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0);
+		AddStateChangeCondition(walk, idle, state => agent.remainingDistance-agent.stoppingDistance <= 0);
 
+
+		AddStateChangeCondition(preWalkAttack, walkAttack, state => true);
 		//walkAttack update listener
 		AddStateUpdateListener(walkAttack, state =>
 		{
@@ -112,7 +147,7 @@ public class AttackerUnit : Unit
 				agent.destination = targetTransform.position;
 		});
 		//walkAttack -> attack
-		AddStateChangeCondition(walkAttack, attack, state => agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0);
+		AddStateChangeCondition(walkAttack, attack, state => agent.remainingDistance-agent.stoppingDistance <= 0);
 
 		//attack -> walkAttack
 		AddStateChangeCondition(attack, walkAttack, state =>
@@ -137,8 +172,8 @@ public class AttackerUnit : Unit
 	{
 		base.Update();
 		Vector3 velocity = agent.velocity;
-		animator.SetFloat("x", velocity.x);
-		animator.SetFloat("y", velocity.y);
+		animator.SetFloat("x", velocity.y);
+		animator.SetFloat("y", velocity.x);
 	}
 
 	IEnumerator Shoot()

@@ -525,6 +525,7 @@ GameObject:
   - component: {fileID: 65283569215704792}
   - component: {fileID: 54809552618144138}
   - component: {fileID: 114871559470334394}
+  - component: {fileID: 114361789670377806}
   m_Layer: 0
   m_Name: DpsUnit
   m_TagString: Untagged
@@ -1254,6 +1255,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasPrefab: {fileID: 0}
   canvasInstance: {fileID: 0}
+--- !u!114 &114361789670377806
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1848267205975974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf0c9cf98e3e52b4ca3aa45a2acca8a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectShader: {fileID: 0}
+  secundarySelectShader: {fileID: 0}
 --- !u!114 &114368910538741076
 MonoBehaviour:
   m_ObjectHideFlags: 1

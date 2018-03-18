@@ -20,13 +20,21 @@ public class InfoShower : MonoBehaviour
 	/// <param name="selected">the gameobject which are at the moment selected</param>
 	public delegate void ChangeSelection(ReadOnlyCollection<GameObject> added, ReadOnlyCollection<GameObject> removed, ReadOnlyCollection<GameObject> selected);
 
+	public delegate void ChangePosition(Vector3 pos);
+
+	public event ChangePosition ChangePositionEvent;
+
 	public event ChangeSelection ChangeSelectionEvent;
+
+	public event ChangeSelection ChangeSecundarySelectionEvent;
 
 	public delegate void SelectionContains(GameObject go, ReadOnlyCollection<GameObject> selected);
 
 	private Dictionary<GameObject, List<SelectionContains>> _selectionContainsListeners =
 		new Dictionary<GameObject, List<SelectionContains>>();
 
+	private Dictionary<GameObject, List<SelectionContains>> _secundarySelectionContainsListeners =
+		new Dictionary<GameObject, List<SelectionContains>>();
 
 	/// <summary>
 	/// The transform under which the ui elements are spawned
@@ -37,6 +45,16 @@ public class InfoShower : MonoBehaviour
 	/// A list of all selected objects
 	/// </summary>
 	private List<GameObject> selectedObjects = new List<GameObject>();
+
+	/// <summary>
+	/// A list of all object which where selected by using the right mouse button. 
+	/// </summary>
+	private List<GameObject> secundarySelectedObjects = new List<GameObject>();
+
+	/// <summary>
+	/// If the user doesn't hit an object, this positon will be selected
+	/// </summary>
+	private Vector3 selectedPosition;
 
 	/// <summary>
 	/// The starting point (mouse coordinates/screen coordinates) of the multi selection
@@ -57,6 +75,11 @@ public class InfoShower : MonoBehaviour
 	/// The texture for the selection box. It is auto created
 	/// </summary>
 	private Texture2D selectionBoxTexture;
+
+	/// <summary>
+	/// The texture for the selection box for the secundary selection. It is auto created
+	/// </summary>
+	private Texture2D secundarySelectionBoxTexture;
 
 	/// <summary>
 	/// The default cursor texture.
@@ -86,9 +109,16 @@ public class InfoShower : MonoBehaviour
 	/// </summary>
 	private EventSystem eventSystem;
 
+	[SerializeField] private UiParent defaultObjectUi;
+
 	protected Dictionary<GameObject, List<SelectionContains>> SelectionContainsListeners
 	{
 		get { return _selectionContainsListeners; }
+	}
+
+	protected Dictionary<GameObject, List<SelectionContains>> SecundarySelectionContainsListeners
+	{
+		get { return _secundarySelectionContainsListeners; }
 	}
 
 	/// <summary>
@@ -97,6 +127,19 @@ public class InfoShower : MonoBehaviour
 	public ReadOnlyCollection<GameObject> SelectedObjects
 	{
 		get { return selectedObjects.AsReadOnly(); }
+	}
+
+	/// <summary>
+	/// A list of all object which where selected by using the right mouse button. 
+	/// </summary>
+	public ReadOnlyCollection<GameObject> SecundarySelectedObjects
+	{
+		get { return secundarySelectedObjects.AsReadOnly(); }
+	}
+
+	public Vector3 SelectedPosition
+	{
+		get { return selectedPosition; }
 	}
 
 	/// <summary>
@@ -121,6 +164,10 @@ public class InfoShower : MonoBehaviour
 		selectionBoxTexture.SetPixel(0, 0, new Color(1, 1, 1, 0.5f));
 		selectionBoxTexture.Apply();
 
+		secundarySelectionBoxTexture = new Texture2D(1, 1);
+		secundarySelectionBoxTexture.SetPixel(0, 0, new Color(1, 0, 0, 0.5f));
+		secundarySelectionBoxTexture.Apply();
+
 		GameObject eventsystemGo = GameObject.Find("EventSystem");
 		if (eventsystemGo != null)
 		{
@@ -134,6 +181,11 @@ public class InfoShower : MonoBehaviour
 
 	void Update()
 	{
+		bool mousePressed = Input.GetButton("LeftMouse") || Input.GetButton("RightMouse");
+		bool mouseDown = Input.GetButtonDown("LeftMouse") || Input.GetButtonDown("RightMouse");
+		bool mouseUp = Input.GetButtonUp("LeftMouse") || Input.GetButtonUp("RightMouse");
+		bool leftMouse = Input.GetButton("LeftMouse") || Input.GetButtonDown("LeftMouse") || Input.GetButtonUp("LeftMouse");
+
 		//switches between the modes depending on the controll key
 		if (SelectionMode != SelectionModeEnum.MultipleAdd && Input.GetButton("Control"))
 			SelectionMode = SelectionModeEnum.MultipleAdd;
@@ -141,15 +193,20 @@ public class InfoShower : MonoBehaviour
 			SelectionMode = SelectionModeEnum.MultipleClear;
 
 		//Clears the selection if the selection mode isn't addative
-		if (Input.GetButtonDown("LeftMouse") && SelectionMode != SelectionModeEnum.MultipleAdd)
+		if (mouseDown && SelectionMode != SelectionModeEnum.MultipleAdd && leftMouse)
+		{
 			ClearSelection();
+		} else if (mouseDown && SelectionMode != SelectionModeEnum.MultipleAdd && !leftMouse)
+		{
+			ClearSecundarySelection();
+		}
 
 		//saves the start position of the mouse for the selection box
-		if (Input.GetButtonDown("LeftMouse") && !multipleSelectionActive)
+		if (mouseDown && !multipleSelectionActive)
 			selectionStartMousePos = Input.mousePosition;
 
 		//Checks if the mouse position has changed since the user clicked the LeftMouse Button. If the distance is greater then 0.1 (a threadshold) then multiselecting is activated
-		if (Input.GetButton("LeftMouse") &&
+		if (mousePressed &&
 		    Mathf.Abs(Vector2.Distance(selectionStartMousePos, Input.mousePosition)) > 0.1 && !multipleSelectionActive)
 		{
 			multipleSelectionActive = true;
@@ -165,7 +222,7 @@ public class InfoShower : MonoBehaviour
 
 		//In here is the main multi selection logic
 		//here is the selecting and the setting of the shader logic 
-		if (multipleSelectionActive && Input.GetButtonUp("LeftMouse"))
+		if (multipleSelectionActive && mouseUp)
 		{
 			//precalculates the bounds
 			Bounds viewportBounds = GetViewportBounds(camera, selectionStartMousePos, Input.mousePosition);
@@ -174,35 +231,46 @@ public class InfoShower : MonoBehaviour
 			//goes through every object which can be selected (
 			foreach (var go in Selectable.SelecGameObjects)
 			{
+				if (go == null) continue;
 				if (viewportBounds.Contains(camera.WorldToViewportPoint(go.transform.position)))
 				{
+
 					if (selectedObjects.Contains(go))
 					{
-						RemoveObjectFromSelection(go, false);
+						if(leftMouse)
+							RemoveObjectFromSelection(go, false);
+						else
+							RemoveObjectFromSecundarySelection(go, false);
 						removedGos.Add(go);
 					}
 					else
 					{
 						//If yes the old shader gets saved and the select shader applied
-						AddObjectToSelection(go, false);
+						if(leftMouse)
+							AddObjectToSelection(go, false);
+						else 
+							AddObjectToSecundarySelection(go, false);
 						addedGos.Add(go);
 					}
 				}
 			}
-			if(ChangeSelectionEvent != null)
-				ChangeSelectionEvent.Invoke(addedGos.AsReadOnly(), removedGos.AsReadOnly(), SelectedObjects);
+
+			if (ChangeSelectionEvent != null)
+			{
+				if(leftMouse)
+					ChangeSelectionEvent.Invoke(addedGos.AsReadOnly(), removedGos.AsReadOnly(), SelectedObjects);
+				else
+					ChangeSecundarySelectionEvent.Invoke(addedGos.AsReadOnly(), removedGos.AsReadOnly(), SelectedObjects);
+			}
 		}
 
 
 		//hides the last ui canvas
-		if (Input.GetButtonDown("LeftMouse"))
-		{
-			if (!eventSystem.IsPointerOverGameObject())
-				HideObjectUi();
-		}
+		if (mouseDown && !eventSystem.IsPointerOverGameObject() && leftMouse)
+			HideObjectUi();
 
 		//Here is the single selection in
-		if (Input.GetButtonUp("LeftMouse") && !multipleSelectionActive)
+		if (mouseUp && !multipleSelectionActive)
 		{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
@@ -213,15 +281,34 @@ public class InfoShower : MonoBehaviour
 				if (hittedGo.GetComponent<Selectable>() != null)
 				{
 					if (selectedObjects.Contains(hittedGo))
-						RemoveObjectFromSelection(hittedGo);
+					{
+						if(leftMouse)
+							RemoveObjectFromSelection(hittedGo);
+						else
+							RemoveObjectFromSecundarySelection(hittedGo);
+					}
 					else
-						AddObjectToSelection(hittedGo);
+					{
+						if (leftMouse)
+							AddObjectToSelection(hittedGo);
+						else
+							AddObjectToSecundarySelection(hittedGo);
+					}
+				}
+				else
+				{
+					if (!leftMouse)
+					{
+						selectedPosition = hit.point;
+						if(ChangePositionEvent != null)
+							ChangePositionEvent.Invoke(selectedPosition);
+					}
 				}
 			}
 		}
 
 		//disables the multiple selection mode
-		if (Input.GetButtonUp("LeftMouse") && multipleSelectionActive)
+		if (mouseUp && multipleSelectionActive)
 		{
 			multipleSelectionActive = false;
 			SelectionMode = SelectionModeEnum.Single;
@@ -230,6 +317,7 @@ public class InfoShower : MonoBehaviour
 
 	void OnGUI()
 	{
+		bool leftMouse = Input.GetButton("LeftMouse") || Input.GetButtonDown("LeftMouse") || Input.GetButtonUp("LeftMouse");
 		if (multipleSelectionActive)
 		{
 			Vector2 start = Vector2.Min(selectionStartMousePos, Input.mousePosition);
@@ -237,7 +325,7 @@ public class InfoShower : MonoBehaviour
 			Vector2 size = new Vector2(start.x - stop.x, start.y - stop.y);
 			GUI.DrawTexture(
 				new Rect(start.x, Screen.height - start.y, stop.x - start.x,
-					-1 * ((Screen.height - start.y) - (Screen.height - stop.y))), selectionBoxTexture);
+					-1 * ((Screen.height - start.y) - (Screen.height - stop.y))), leftMouse?selectionBoxTexture:secundarySelectionBoxTexture);
 		}
 	}
 	
@@ -318,18 +406,94 @@ public class InfoShower : MonoBehaviour
 		}
 	}
 
+
+	/// <summary>
+	/// Adds a listner for an gameobject. If this gameobject is selected, the listner will be invoked
+	/// </summary>
+	/// <param name="go">the gameobject on which the listener should be registered</param>
+	/// <param name="listener">the listener it self</param>
+	/// <returns>the SelectionContains delgate which was given to this function</returns>
+	public SelectionContains AddSecundarySelectionContainsListener(GameObject go, SelectionContains listener)
+	{
+		if (!SecundarySelectionContainsListeners.ContainsKey(go))
+			SecundarySelectionContainsListeners.Add(go, new List<SelectionContains>());
+		SecundarySelectionContainsListeners[go].Add(listener);
+		return listener;
+	}
+
+	public bool RemoveSecundarySelectionContainsListner(GameObject go, SelectionContains listener)
+	{
+		if (!SecundarySelectionContainsListeners.ContainsKey(go)) return false;
+		return SecundarySelectionContainsListeners[go].Remove(listener);
+	}
+
+	/// <summary>
+	/// Clears the selection and resets the shaders 
+	/// </summary>
+	public void ClearSecundarySelection()
+	{
+		secundarySelectedObjects.ForEach(o =>
+		{
+			o.GetComponent<Selectable>().RevertShader();
+		});
+		if (ChangeSecundarySelectionEvent!= null)
+			ChangeSecundarySelectionEvent.Invoke(Array.AsReadOnly(new GameObject[] { }), SecundarySelectedObjects, new List<GameObject>().AsReadOnly());
+		secundarySelectedObjects.Clear();
+	}
+
+	/// <summary>
+	/// Adds an object to the selection, changes the shader and shows and hides the appropriate canvas
+	/// </summary>
+	/// <param name="go">The Gameobject which is added</param>
+	protected void AddObjectToSecundarySelection(GameObject go, bool invokeSelectionChangeEvent = true)
+	{
+		if (secundarySelectedObjects.Contains(go)) return;
+
+		Selectable selectable = go.GetComponent<Selectable>();
+		if (selectable == null)
+			throw new Exception("You tried to add an GameObject which hans't a Selectable component on it: (Gameobject: " + go + ")");
+		selectable.SetShader(secundary: true);
+
+		secundarySelectedObjects.Add(go);
+
+		if (SecundarySelectionContainsListeners.ContainsKey(go))
+		{
+			foreach (var l in SecundarySelectionContainsListeners[go])
+				l.Invoke(go, secundarySelectedObjects.AsReadOnly());
+		}
+		if (invokeSelectionChangeEvent && ChangeSecundarySelectionEvent != null)
+			ChangeSecundarySelectionEvent.Invoke(Array.AsReadOnly(new GameObject[] { go }), Array.AsReadOnly(new GameObject[] { }), SecundarySelectedObjects);
+	}
+
+	/// <summary>
+	/// Remove an object from the selection and reverts the shader
+	/// </summary>
+	/// <param name="go"></param>
+	/// <param name="invokeSelectionChangeEvent"></param>
+	protected void RemoveObjectFromSecundarySelection(GameObject go, bool invokeSelectionChangeEvent = true)
+	{
+		if (secundarySelectedObjects.Remove(go))
+		{
+			go.GetComponent<Selectable>().RevertShader();
+			if (invokeSelectionChangeEvent && ChangeSecundarySelectionEvent != null)
+				ChangeSecundarySelectionEvent.Invoke(Array.AsReadOnly(new GameObject[] { }), Array.AsReadOnly(new GameObject[] { go }), SecundarySelectedObjects);
+		}
+	}
+
 	/// <summary>
 	/// Shows the ui of the given game object
 	/// </summary>
 	/// <param name="go">the gameobject</param>
 	private void ShowObjectUi(GameObject go)
 	{
+		if (go == null) return;
 		UiReferrer referrer = go.GetComponent<UiReferrer>();
 		if (referrer != null)
 		{
 			if (referrer.canvasInstance == null)
 			{
-				referrer.canvasInstance = Instantiate(referrer.canvasPrefab.gameObject, uiSpawnParent);
+				var prefab = referrer.canvasPrefab ?? defaultObjectUi;
+				referrer.canvasInstance = Instantiate(prefab.gameObject, uiSpawnParent);
 				referrer.canvasInstance.GetComponent<UiParent>().Parent =
 					referrer.gameObject; //sets the Parent of the ParentUi object to the object to which it belongs
 			}

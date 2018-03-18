@@ -9,11 +9,13 @@ public class Selectable : MonoBehaviour {
 	/// If no shader was given to <see cref="SetShader"/> via argument, this shader is used.
 	/// </summary>
 	[SerializeField] private Shader selectShader;
+	[SerializeField] private Shader secundarySelectShader;
 
 	/// <summary>
 	/// A stack from all shaders which where overriden by SetShader. The <see cref="RevertShader"/> pops the shaders back from the stack
 	/// </summary>
 	private Stack<Shader> oldShaders = new Stack<Shader>();
+
 	
 	void Awake() {
 		SelecGameObjects.Add(this.gameObject);
@@ -23,10 +25,11 @@ public class Selectable : MonoBehaviour {
 	/// Sets the shader of this object and puts it on to the stack
 	/// </summary>
 	/// <param name="shader">the shader</param>
-	public void SetShader(Shader shader = null)
+	/// <param name="secundary">if the secundary selected shader  or the primary selected shader should be used if no shader is provider</param>
+	public void SetShader(Shader shader = null, bool secundary = false)
 	{
 		if (shader == null)
-			shader = selectShader;
+			shader = secundary?secundarySelectShader:selectShader;
 		Renderer renderer = GetComponent<Renderer>();
 		if (renderer != null)
 		{
@@ -50,4 +53,5 @@ public class Selectable : MonoBehaviour {
 		if (renderer != null)
 			renderer.material.shader = oldShaders.Pop();
 	}
+
 }

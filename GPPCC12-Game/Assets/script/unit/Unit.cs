@@ -207,7 +207,10 @@ public class Unit : MonoBehaviour
 		AddStateUpdateListener(s, state =>
 		{
 			if (stateChangeCondition.Invoke(CurrentState))
+			{
+				Debug.Log("Changed current state to " + to + " because of an ChangeCondition");
 				this.CurrentState = to;
+			}
 		});
 	}
 
@@ -284,7 +287,7 @@ public class Unit : MonoBehaviour
 
 		public override string ToString()
 		{
-			return String.Format("State {id: {0}, name: {1}}", Id, Name);
+			return String.Format("State {{id: {0}, name: {1}}}", Id, Name);
 		}
 
 		public static int GetNextId()
