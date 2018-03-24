@@ -373,7 +373,7 @@ public class InfoShower : MonoBehaviour
 
 		Selectable selectable = go.GetComponent<Selectable>();
 		if (selectable == null)
-			throw new Exception("You tried to add an GameObject which hans't a Selectable component on it: (Gameobject: " + go + ")");
+			throw new Exception("You tried to Add an GameObject which hans't a Selectable component on it: (Gameobject: " + go + ")");
 		selectable.SetShader();
 
 		selectedObjects.Add(go);
@@ -451,7 +451,7 @@ public class InfoShower : MonoBehaviour
 
 		Selectable selectable = go.GetComponent<Selectable>();
 		if (selectable == null)
-			throw new Exception("You tried to add an GameObject which hans't a Selectable component on it: (Gameobject: " + go + ")");
+			throw new Exception("You tried to Add an GameObject which hans't a Selectable component on it: (Gameobject: " + go + ")");
 		selectable.SetShader(secundary: true);
 
 		secundarySelectedObjects.Add(go);

@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UnitSlots : MonoBehaviour
+public class UnitSlot : MonoBehaviour
 {
     [SerializeField]
     private UnitSlotData data;
@@ -20,21 +19,27 @@ public class UnitSlots : MonoBehaviour
     [SerializeField]
     private Text spawnTimeLbl;
 
-	// Use this for initialization
+	[SerializeField]
+	private Image image;
 	void Start ()
 	{
+		if(data == null)
+			throw new Exception("data in UnitSlot is null");
 		titleLabel.text = name;
-		ironCostLbl.text = ironCost + " Iron";
-		oilCostLbl.text = oilCost + " Oil";
-        spawnTimeLbl.text = spawnTime + " s";
+		ironCostLbl.text = data.IronCost + " Iron";
+		oilCostLbl.text = data.OilCost + " Oil";
+        spawnTimeLbl.text = data.SpawnTime + " s";
+
+		image.sprite = data.UnitSprite;
 	}
 
 	public void TrainBtnListener()
 	{
-		//TODO check if enough resources are avaible and use them
-		Spawner.SpawnerInstance.CmdSpawnUnit((int) unit);
+		QueueUi.Instance.Add(data);
+		//Spawner.SpawnerInstance.CmdSpawnUnit((int) data.Unit);
 	}
 
+	[Serializable]
     public class UnitSlotData
     {
         [SerializeField]
@@ -51,6 +56,9 @@ public class UnitSlots : MonoBehaviour
 
         [SerializeField]
         private float spawnTime;
+
+	    [SerializeField]
+	    private Texture2D _unitTexture;
 
         public Spawner.SpawnerPrefab Unit
         {
@@ -76,5 +84,20 @@ public class UnitSlots : MonoBehaviour
         {
             get { return spawnTime; }
         }
+
+	    public Texture2D UnitTexture
+	    {
+		    get { return _unitTexture; }
+	    }
+
+	    public Sprite UnitSprite
+	    {
+		    get
+		    {
+				if(UnitTexture == null)
+					throw new Exception("Unit Texture is null!");
+				return Sprite.Create(UnitTexture, new Rect(0, 0, UnitTexture.width, UnitTexture.height), Vector2.zero);
+			}
+	    }
     }
 }
