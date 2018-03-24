@@ -62,6 +62,6 @@ public class Spawner : NetworkBehaviour
 
     public enum SpawnerPrefab
 	{
-		LauncherBullet, HealingUnit, TankUnit, DpsUnit
+		LauncherBullet, HealingUnit, TankUnit, DpsUnit, LaserBullet
     }
 }

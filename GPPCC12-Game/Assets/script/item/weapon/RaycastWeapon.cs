@@ -8,10 +8,14 @@ public class RaycastWeapon : Weapon
 	[SerializeField]
 	private float _range;
 
+    [SerializeField]
+    private ParticleSystem particleSystem;
+
 	public float Range
 	{
 		get { return _range; }
 		set { _range = value; }
+
 	}
 
 	// Use this for initialization
@@ -21,6 +25,8 @@ public class RaycastWeapon : Weapon
 
 	private void OnTriggerEvent(Weapon weapon)
 	{
+        if (particleSystem != null)
+            particleSystem.Play();
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, transform.rotation.eulerAngles, out hit, _range))
 		{

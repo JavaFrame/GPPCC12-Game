@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 222603364646957568}
   - component: {fileID: 114562877674825968}
   m_Layer: 5
-  m_Name: LbCostOil
+  m_Name: LbCostTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -529,6 +529,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1946806886783540
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224969902329538604}
+  - component: {fileID: 222127956887928944}
+  - component: {fileID: 114488709439080264}
+  m_Layer: 5
+  m_Name: LbCostOil
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1985793208236940
 GameObject:
   m_ObjectHideFlags: 1
@@ -870,10 +887,12 @@ MonoBehaviour:
   name: Tank Unit
   ironCost: 5
   oilCost: 5
+  spawnTime: 0
   unit: 2
   titleLabel: {fileID: 114943986778074808}
   ironCostLbl: {fileID: 114197961461960946}
   oilCostLbl: {fileID: 114631846693620650}
+  spawnTimeLbl: {fileID: 0}
 --- !u!114 &114380967025925028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -979,6 +998,39 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Costs:'
+--- !u!114 &114488709439080264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1946806886783540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 8
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: xx Oil
 --- !u!114 &114562877674825968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1011,7 +1063,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: xx Oil
+  m_Text: xx s
 --- !u!114 &114617953787741312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1206,10 +1258,12 @@ MonoBehaviour:
   name: DPS
   ironCost: 5
   oilCost: 5
+  spawnTime: 5
   unit: 3
   titleLabel: {fileID: 114450121039613074}
   ironCostLbl: {fileID: 114236574880918914}
-  oilCostLbl: {fileID: 114562877674825968}
+  oilCostLbl: {fileID: 114488709439080264}
+  spawnTimeLbl: {fileID: 114562877674825968}
 --- !u!114 &114740278897747006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1680,10 +1734,12 @@ MonoBehaviour:
   name: Healing Unit
   ironCost: 5
   oilCost: 5
+  spawnTime: 0
   unit: 1
   titleLabel: {fileID: 114102504799365178}
   ironCostLbl: {fileID: 114740278897747006}
   oilCostLbl: {fileID: 114836601193092282}
+  spawnTimeLbl: {fileID: 0}
 --- !u!114 &114986903744352846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1735,6 +1791,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1130500962462970}
+--- !u!222 &222127956887928944
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1946806886783540}
 --- !u!222 &222137862056966804
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -2012,7 +2074,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.244, y: 4.6198}
+  m_AnchoredPosition: {x: 23.224, y: 12.3}
   m_SizeDelta: {x: 30.568, y: 9.24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224304555769831726
@@ -2154,11 +2216,11 @@ RectTransform:
   m_Children:
   - {fileID: 224988999474223802}
   m_Father: {fileID: 224861101587327588}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.224, y: -23.2}
+  m_AnchoredPosition: {x: 23.224, y: -27.4}
   m_SizeDelta: {x: 36.632, y: 15.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224543482772667780
@@ -2194,7 +2256,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -23.425, y: 17.06}
+  m_AnchoredPosition: {x: -23.425, y: 26.2}
   m_SizeDelta: {x: 46.85, y: 11.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224560038425393900
@@ -2205,14 +2267,14 @@ RectTransform:
   m_GameObject: {fileID: 1190430567563378}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.00000045489}
-  m_LocalScale: {x: 1.0012985, y: 1.001299, z: 1.001299}
+  m_LocalScale: {x: 1.0013, y: 1.0013, z: 1.0013}
   m_Children: []
   m_Father: {fileID: 224861101587327588}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.224241, y: -8.4001}
+  m_AnchoredPosition: {x: 23.202026, y: -9.240021}
   m_SizeDelta: {x: 30.568, y: 9.24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224590696038703962
@@ -2285,7 +2347,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.235123, y: 17.334885}
+  m_AnchoredPosition: {x: 23.21327, y: 25.925003}
   m_SizeDelta: {x: 30.59, y: 11.87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224653253447214086
@@ -2381,7 +2443,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 61.325, y: -125.3}
+  m_AnchoredPosition: {x: 62.91003, y: -140.05128}
   m_SizeDelta: {x: 105.45, y: 67.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224853840548704708
@@ -2416,6 +2478,7 @@ RectTransform:
   - {fileID: 224862801241170634}
   - {fileID: 224646469799775760}
   - {fileID: 224271972250768986}
+  - {fileID: 224969902329538604}
   - {fileID: 224560038425393900}
   - {fileID: 224526398757522892}
   m_Father: {fileID: 224245072395034798}
@@ -2423,8 +2486,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 61.325, y: -52.38}
-  m_SizeDelta: {x: 105.45, y: 67.75}
+  m_AnchoredPosition: {x: 62.91, y: -59.23}
+  m_SizeDelta: {x: 108.61, y: 81.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224862801241170634
 RectTransform:
@@ -2441,8 +2504,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -23.424982, y: -8.4}
-  m_SizeDelta: {x: 32.52, y: 31.49}
+  m_AnchoredPosition: {x: -23.425, y: -4.4}
+  m_SizeDelta: {x: 39.51, y: 38.26}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224890819703106070
 RectTransform:
@@ -2481,6 +2544,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!224 &224969902329538604
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1946806886783540}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.00000045489}
+  m_LocalScale: {x: 1.0012985, y: 1.001299, z: 1.001299}
+  m_Children: []
+  m_Father: {fileID: 224861101587327588}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 23.202, y: -0.000014305}
+  m_SizeDelta: {x: 30.568, y: 9.24}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224988999474223802
 RectTransform:
   m_ObjectHideFlags: 1

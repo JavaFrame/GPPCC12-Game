@@ -314,6 +314,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1529859121438566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4953549829893814}
+  - component: {fileID: 114536008881056788}
+  m_Layer: 0
+  m_Name: WeaponSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1564066923618466
 GameObject:
   m_ObjectHideFlags: 1
@@ -524,8 +540,10 @@ GameObject:
   - component: {fileID: 114368910538741076}
   - component: {fileID: 65283569215704792}
   - component: {fileID: 54809552618144138}
-  - component: {fileID: 114871559470334394}
   - component: {fileID: 114361789670377806}
+  - component: {fileID: 114245607175874184}
+  - component: {fileID: 95538639497620484}
+  - component: {fileID: 114072543977409676}
   m_Layer: 0
   m_Name: DpsUnit
   m_TagString: Untagged
@@ -926,6 +944,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4186819504058546}
+  - {fileID: 4953549829893814}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1095,6 +1114,19 @@ Transform:
   m_Father: {fileID: 4056293010131208}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4953549829893814
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1529859121438566}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.18, y: 2.024, z: 0.521}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4562385758060424}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4970440530745734
 Transform:
   m_ObjectHideFlags: 1
@@ -1210,6 +1242,42 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95538639497620484
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1848267205975974}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114072543977409676
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1848267205975974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 95318514892184208}
+  m_ParameterSendBits: 7
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!114 &114085183967921994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1255,6 +1323,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasPrefab: {fileID: 0}
   canvasInstance: {fileID: 0}
+--- !u!114 &114245607175874184
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1848267205975974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114361789670377806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1285,11 +1374,33 @@ MonoBehaviour:
   _currentState:
     _id: 0
     _name: 
-  attackAnimation: attack
+  attackAnimation: attacking
   animator: {fileID: 95318514892184208}
   minAttackDistance: 20
   maxAttackDistance: 20
-  weapon: {fileID: 114871559470334394}
+  weapon: {fileID: 114536008881056788}
+--- !u!114 &114536008881056788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1529859121438566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6597e4afff8f194438ee3a9c49d911f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Laser Gun
+  description: A gun which shoots laser
+  damage: 3
+  maxBulletsInMagasin: -1
+  maxMagasins: -1
+  autoReload: 1
+  shootTime: 1
+  reloadTime: 1
+  parent: {fileID: 1848267205975974}
+  projectil: 4
+  camera: {fileID: 4953549829893814}
 --- !u!114 &114686710579661510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1303,28 +1414,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 200
   maxLife: 200
---- !u!114 &114871559470334394
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1848267205975974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6597e4afff8f194438ee3a9c49d911f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: Laser Gun
-  description: A gun which shoots laser
-  damage: 10
-  maxBulletsInMagasin: -1
-  maxMagasins: -1
-  autoReload: 1
-  shootTime: 1
-  reloadTime: 1
-  parent: {fileID: 1848267205975974}
-  projectil: 0
-  camera: {fileID: 4562385758060424}
 --- !u!137 &137535240640219506
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

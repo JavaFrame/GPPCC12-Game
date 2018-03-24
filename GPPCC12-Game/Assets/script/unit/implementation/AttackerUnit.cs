@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class AttackerUnit : Unit
 {
 	[SerializeField]
-	private string attackAnimation = "attack";
+	private string attackAnimation = "attacking";
 
 	private Hurtable target;
 
@@ -41,7 +41,7 @@ public class AttackerUnit : Unit
 			targetTransform = target.transform;
 			CurrentState = preWalkAttack;
 			agent.destination = targetTransform.position;
-			agent.stoppingDistance = (MinAttackDistance + MaxAttackDistance) / 2;
+			//agent.stoppingDistance = (MinAttackDistance + MaxAttackDistance) / 2;
 		}
 	}
 
@@ -94,7 +94,6 @@ public class AttackerUnit : Unit
 	{
 		base.Start();
 		agent = GetComponent<NavMeshAgent>();
-
 		idle = RegisterState("Idle");
 		preWalk = RegisterState("Pre Walk");
 		walk = RegisterState("Walk");
@@ -145,22 +144,37 @@ public class AttackerUnit : Unit
 		{
 			if(targetTransform.position != agent.destination)
 				agent.destination = targetTransform.position;
+            NavMeshHit hit;
+            if(!agent.Raycast(targetTransform.position, out hit)
+                && Vector3.Distance(targetTransform.position, transform.position) < maxAttackDistance
+                && Vector3.Distance(targetTransform.position, transform.position) > minAttackDistance)
+            {
+                agent.stoppingDistance = agent.remainingDistance;
+            }
+
 		});
 		//walkAttack -> attack
-		AddStateChangeCondition(walkAttack, attack, state => agent.remainingDistance-agent.stoppingDistance <= 0);
+		AddStateChangeCondition(walkAttack, attack, state => {
+            NavMeshHit hit;
+            return !agent.Raycast(targetTransform.position, out hit);
+        });
 
 		//attack -> walkAttack
 		AddStateChangeCondition(attack, walkAttack, state =>
 			Vector3.Distance(transform.position, targetTransform.position) > maxAttackDistance &&
 			Vector3.Distance(transform.position, targetTransform.position) < minAttackDistance);
 		//attack enter: set attack animtion on true
-		AddStateEnterListener(attack, (state, newState) => animator.SetBool(attackAnimation, true));
-		AddStateEnterListener(attack, (state, newState) => StartCoroutine(Shoot()));
+		AddStateEnterListener(attack, (state, newState) => {
+            animator.SetBool(attackAnimation, true);
+            StartCoroutine(Shoot());
+        });
 		//attack leave: set attack animtion on false
 		AddStateLeaveListener(attack, (state, newState) => animator.SetBool(attackAnimation, false));
 
 		AddStateUpdateListener(attack, state =>
 		{
+            transform.rotation = Quaternion.LookRotation(targetTransform.position - agent.transform.position);
+
 			if (target.life <= 0)
 			{
 				CurrentState = idle;
