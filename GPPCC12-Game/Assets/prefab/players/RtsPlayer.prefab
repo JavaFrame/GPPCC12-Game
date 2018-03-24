@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 224994090436853314}
   - component: {fileID: 222905150463597986}
   - component: {fileID: 114180691096027174}
+  - component: {fileID: 114983844022376514}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -72,6 +73,7 @@ GameObject:
   - component: {fileID: 224840615352902218}
   - component: {fileID: 222582700061332692}
   - component: {fileID: 114471886691032396}
+  - component: {fileID: 114924787117699014}
   m_Layer: 5
   m_Name: HP
   m_TagString: Untagged
@@ -972,6 +974,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e40aec3153ec143b3bb9e60d592da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitSpawnTransforms: []
+  unitSpawnPosDiff: {x: 3, y: 3, z: 3}
   prefabs:
   - {fileID: 1588885782506430, guid: b1b664cf9f4ebd74fbde1e66dbe6cf73, type: 2}
   - {fileID: 1811339755319974, guid: 5bc1f8ab5e0645b4ba27f130281510ad, type: 2}
@@ -1080,6 +1084,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Base HP: '
+--- !u!114 &114924787117699014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1168017751521010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6364f58b953cb0c4c9d8bf5822ea994a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseText: {fileID: 114209721237313946}
+  oilText: {fileID: 114929082749872876}
+  iron1Text: {fileID: 114603007425067220}
+  iron2Text: {fileID: 114099650224633320}
 --- !u!114 &114929082749872876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1165,6 +1184,19 @@ MonoBehaviour:
   m_MovementThreshold: 3.26
   m_InterpolateRotation: 0.5
   m_InterpolateMovement: 0.5
+--- !u!114 &114983844022376514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1085653463669768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa1a0e1118cbf54293c36c235f74feb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oilText: {fileID: 114077307608046692}
+  ironText: {fileID: 114170089084780138}
 --- !u!114 &114997287410724966
 MonoBehaviour:
   m_ObjectHideFlags: 1

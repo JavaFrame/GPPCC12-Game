@@ -44,6 +44,10 @@ public class QueueUi : MonoBehaviour
 	public bool Add(UnitSlot.UnitSlotData data)
 	{
 		if (slots.Count >= images.Length) return false;
+		if (Inventory.IronResource < data.IronCost) return false;
+		if (Inventory.OilResource < data.OilCost) return false;
+		Inventory.IronResource -= data.IronCost;
+		Inventory.OilResource -= data.OilCost;
 		slots.Add(data);
 		UpdateQueue();
 		return true;

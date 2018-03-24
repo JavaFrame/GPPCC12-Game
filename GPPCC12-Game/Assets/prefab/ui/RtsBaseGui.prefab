@@ -1129,6 +1129,7 @@ MonoBehaviour:
   oilCostLbl: {fileID: 114488709439080264}
   spawnTimeLbl: {fileID: 114562877674825968}
   image: {fileID: 114947141977232552}
+  trainBtn: {fileID: 114058785663637030}
 --- !u!114 &114450121039613074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1743,6 +1744,7 @@ MonoBehaviour:
   oilCostLbl: {fileID: 114869777338250082}
   spawnTimeLbl: {fileID: 114269759695414460}
   image: {fileID: 114729817696145300}
+  trainBtn: {fileID: 114803976783509780}
 --- !u!114 &114729817696145300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1878,6 +1880,7 @@ MonoBehaviour:
   oilCostLbl: {fileID: 114624978764944248}
   spawnTimeLbl: {fileID: 114182092669654084}
   image: {fileID: 114617953787741312}
+  trainBtn: {fileID: 114192442227309452}
 --- !u!114 &114923335175599810
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -21,6 +21,10 @@ public class UnitSlot : MonoBehaviour
 
 	[SerializeField]
 	private Image image;
+
+	[SerializeField]
+	private Button trainBtn;
+
 	void Start ()
 	{
 		if(data == null)
@@ -31,6 +35,11 @@ public class UnitSlot : MonoBehaviour
         spawnTimeLbl.text = data.SpawnTime + " s";
 
 		image.sprite = data.UnitSprite;
+	}
+
+	void Update()
+	{
+		trainBtn.enabled = Inventory.IronResource >= data.IronCost && Inventory.OilResource >= data.OilCost;
 	}
 
 	public void TrainBtnListener()
