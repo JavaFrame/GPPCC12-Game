@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using Random = System.Random;
@@ -76,7 +75,7 @@ public class Spawner : NetworkBehaviour
 	        while (Physics.CheckBox(tempSpawnPos, new Vector3(2, 2, 2)) && tries > 0) ;
 
 			GameObject go = Instantiate(prefab, tempSpawnPos, Quaternion.identity);
-            NetworkServer.Spawn(go);
+	        NetworkServer.Spawn(go);
         }
         else
         {

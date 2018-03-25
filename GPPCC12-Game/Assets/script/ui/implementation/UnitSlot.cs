@@ -45,7 +45,6 @@ public class UnitSlot : MonoBehaviour
 	public void TrainBtnListener()
 	{
 		QueueUi.Instance.Add(data);
-		//Spawner.SpawnerInstance.CmdSpawnUnit((int) data.Unit);
 	}
 
 	[Serializable]

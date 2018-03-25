@@ -62,7 +62,9 @@ public class Projectile : Weapon {
 		var hurtable = go.GetComponent<Hurtable>();
 		if(hurtable != null)
 		{
-			hurtable.Damaged(damage, parentWeapon.parent, parentWeapon);
+			if(parentWeapon == null)
+				Debug.LogWarning("Parent weapon of projectile " + gameObject.name + " is null");
+			hurtable.Damaged(damage, (parentWeapon!=null?parentWeapon.parent:null), parentWeapon);
 			Hitted(go);
 		}
 		if (DestroyEvent != null) DestroyEvent.Invoke(this);

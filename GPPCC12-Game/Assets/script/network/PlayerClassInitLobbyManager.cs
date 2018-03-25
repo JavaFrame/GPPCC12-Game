@@ -5,17 +5,39 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.Match;
 using UnityEngine.Networking.NetworkSystem;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// This class handels the spawning of the players
 /// </summary>
 public class PlayerClassInitLobbyManager : NetworkLobbyManager
 {
+	public static string Host;
+	public static int Port;
+
+	public static PlayerClassInitLobbyManager Instance
+	{
+		get;
+		private set;
+	}
+
 	/// <summary>
 	/// All class prefabs to spawn them
 	/// </summary>
 	public GameObject[] players;
+
+	void Awake()
+	{ 
+		if (Instance != null)
+			throw new Exception("There are multiplel PlayerClassInitLobbyManagers in the scene!");
+		Instance = this;
+
+		/*this.matchHost = Host;
+		this.matchPort = Port;
+		this.StartClient();*/
+	}
 
 	public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
 	{
@@ -45,8 +67,12 @@ public class PlayerClassInitLobbyManager : NetworkLobbyManager
 			Debug.LogError(String.Format("The PlayerClass {0} (id: {1}) isn't set in the players array", c, val));
 			return null;
 		}
-
 		return players[val];
 	}
 
+
+	public void ChangeScene(string scene)
+	{
+		ServerChangeScene(scene);
+	}
 } 

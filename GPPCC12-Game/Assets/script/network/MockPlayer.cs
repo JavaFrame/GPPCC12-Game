@@ -5,10 +5,16 @@ using UnityEngine.Networking;
 
 public class MockPlayer : NetworkBehaviour
 {
+
+
 	/// <summary>
 	/// The player class of the local player
 	/// </summary>
-	public static PlayerClass PlayerClass;
+	public static PlayerClass PlayerClass
+	{
+		get;
+		private set;
+	}
 
 	/// <summary>
 	/// The player class of THIS mock player 
@@ -28,7 +34,6 @@ public class MockPlayer : NetworkBehaviour
 	/// </summary>
 	public void UpdateSelection()
 	{
-		MockPlayer.PlayerClass = playerClass;
 		if (isLocalPlayer)
 		{
 			int sel = LobbyCanvas.lobbyCanvas.dropdown.value;
@@ -38,6 +43,8 @@ public class MockPlayer : NetworkBehaviour
 				playerClass = PlayerClass.Rts;
 
 			CmdSyncPlayerClass(playerClass);
+			Debug.Log("Set local player: " + playerClass);
+			MockPlayer.PlayerClass = playerClass;
 		}
 	}
 
