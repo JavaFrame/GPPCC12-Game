@@ -21,5 +21,5 @@ public abstract class Item : MonoBehaviour
 	/// <summary>
 	/// Gets called when the item is used
 	/// </summary>
-	public abstract void Use();
+	public abstract bool Use();
 }

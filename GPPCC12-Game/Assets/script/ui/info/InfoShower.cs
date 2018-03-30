@@ -196,6 +196,7 @@ public class InfoShower : MonoBehaviour
 		if (mouseDown && SelectionMode != SelectionModeEnum.MultipleAdd && leftMouse)
 		{
 			ClearSelection();
+			ClearSecundarySelection();
 		} else if (mouseDown && SelectionMode != SelectionModeEnum.MultipleAdd && !leftMouse)
 		{
 			ClearSecundarySelection();
@@ -229,28 +230,37 @@ public class InfoShower : MonoBehaviour
 			var addedGos = new List<GameObject>();
 			var removedGos = new List<GameObject>();
 			//goes through every object which can be selected (
-			foreach (var go in Selectable.SelecGameObjects)
+			foreach (var go in Selectable.SelectGameObjects)
 			{
 				if (go == null) continue;
 				if (viewportBounds.Contains(camera.WorldToViewportPoint(go.transform.position)))
 				{
 
-					if (selectedObjects.Contains(go))
+					if (leftMouse)
 					{
-						if(leftMouse)
+						if (selectedObjects.Contains(go))
+						{
 							RemoveObjectFromSelection(go, false);
+							removedGos.Add(go);
+						}
 						else
-							RemoveObjectFromSecundarySelection(go, false);
-						removedGos.Add(go);
+						{
+							AddObjectToSelection(go, false);
+							addedGos.Add(go);
+						}
 					}
 					else
-					{
-						//If yes the old shader gets saved and the select shader applied
-						if(leftMouse)
-							AddObjectToSelection(go, false);
-						else 
+					{ 
+						if (SecundarySelectedObjects.Contains(go))
+						{
+							RemoveObjectFromSecundarySelection(go, false);
+							removedGos.Add(go);
+						}
+						else
+						{
 							AddObjectToSecundarySelection(go, false);
-						addedGos.Add(go);
+							addedGos.Add(go);
+						}
 					}
 				}
 			}
@@ -260,7 +270,7 @@ public class InfoShower : MonoBehaviour
 				if(leftMouse)
 					ChangeSelectionEvent.Invoke(addedGos.AsReadOnly(), removedGos.AsReadOnly(), SelectedObjects);
 				else
-					ChangeSecundarySelectionEvent.Invoke(addedGos.AsReadOnly(), removedGos.AsReadOnly(), SelectedObjects);
+					ChangeSecundarySelectionEvent.Invoke(addedGos.AsReadOnly(), removedGos.AsReadOnly(), SecundarySelectedObjects);
 			}
 		}
 
@@ -272,12 +282,13 @@ public class InfoShower : MonoBehaviour
 		//Here is the single selection in
 		if (mouseUp && !multipleSelectionActive)
 		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
-			Debug.DrawRay(ray.origin, ray.direction);
-			if (Physics.Raycast(ray, out hit, 100.0f) && !EventSystem.current.IsPointerOverGameObject())
+			Debug.DrawRay(ray.origin, ray.direction*100, Color.blue, 10);
+			if (Physics.Raycast(ray, out hit, 1000.0f) && !EventSystem.current.IsPointerOverGameObject())
 			{
 				GameObject hittedGo = hit.collider.gameObject;
+				
 				if (hittedGo.GetComponent<Selectable>() != null)
 				{
 					if (selectedObjects.Contains(hittedGo))
@@ -304,6 +315,10 @@ public class InfoShower : MonoBehaviour
 							ChangePositionEvent.Invoke(selectedPosition);
 					}
 				}
+			}
+			else
+			{
+				Debug.LogWarning("Didn't hit terain with raycast!");
 			}
 		}
 
@@ -336,8 +351,8 @@ public class InfoShower : MonoBehaviour
 	/// <param name="listener">the listener it self</param>
 	/// <returns>the SelectionContains delgate which was given to this function</returns>
 	public SelectionContains AddSelectionContainsListener(GameObject go, SelectionContains listener)
-	{
-		if(!SelectionContainsListeners.ContainsKey(go))
+	{ 
+		if (!SelectionContainsListeners.ContainsKey(go))
 			SelectionContainsListeners.Add(go, new List<SelectionContains>());
 		SelectionContainsListeners[go].Add(listener);
 		return listener;
@@ -356,7 +371,8 @@ public class InfoShower : MonoBehaviour
 	{
 		selectedObjects.ForEach(o =>
 		{
-			o.GetComponent<Selectable>().RevertShader();
+			if(o != null)
+				o.GetComponent<Selectable>().RevertShader();
 		});
 		if (ChangeSelectionEvent != null)
 			ChangeSelectionEvent.Invoke(Array.AsReadOnly(new GameObject[] { }), SelectedObjects, new List<GameObject>().AsReadOnly());
@@ -370,6 +386,7 @@ public class InfoShower : MonoBehaviour
 	protected void AddObjectToSelection(GameObject go, bool invokeSelectionChangeEvent = true)
 	{
 		if (selectedObjects.Contains(go)) return;
+		if (go == null) return;
 
 		Selectable selectable = go.GetComponent<Selectable>();
 		if (selectable == null)
@@ -434,7 +451,8 @@ public class InfoShower : MonoBehaviour
 	{
 		secundarySelectedObjects.ForEach(o =>
 		{
-			o.GetComponent<Selectable>().RevertShader();
+			if(o != null)
+				o.GetComponent<Selectable>().RevertShader();
 		});
 		if (ChangeSecundarySelectionEvent!= null)
 			ChangeSecundarySelectionEvent.Invoke(Array.AsReadOnly(new GameObject[] { }), SecundarySelectedObjects, new List<GameObject>().AsReadOnly());
@@ -521,8 +539,8 @@ public class InfoShower : MonoBehaviour
 	/// <returns>the bound which resulted from these parameters</returns>
 	private static Bounds GetViewportBounds(Camera camera, Vector3 start, Vector3 stop)
 	{
-		var v1 = Camera.main.ScreenToViewportPoint(start);
-		var v2 = Camera.main.ScreenToViewportPoint(stop);
+		var v1 = camera.ScreenToViewportPoint(start);
+		var v2 = camera.ScreenToViewportPoint(stop);
 		var min = Vector3.Min(v1, v2);
 		var max = Vector3.Max(v1, v2);
 		min.z = camera.nearClipPlane;

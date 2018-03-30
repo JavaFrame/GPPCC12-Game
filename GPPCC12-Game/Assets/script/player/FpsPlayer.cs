@@ -90,10 +90,10 @@ public class FpsPlayer : Player
             jumpCounter = 0;
         }
 
-		if(Input.GetButtonDown("Shoot")) 
-			_animator.SetBool("shooting", true);
-		else if(Input.GetButtonUp("Shoot")) 
-			_animator.SetBool("shooting", false);
+	    if (Input.GetButton("Shoot") && weapon.Use())
+	    {
+			_animator.SetTrigger("shooting");
+	    }
     }
 
     public override void UpdateRotation()

@@ -72,10 +72,10 @@ public abstract class Weapon : Item
 		this.bulletsInMagasin = maxBulletsInMagasin;
 	}
 
-	public override void Use()
+	public override bool Use()
 	{
-		if (Time.time - lastShootTime < shootTime) return;
-		if (Time.time - lastReloadTime < reloadTime) return;
+		if (Time.time - lastShootTime < shootTime) return false;
+		if (Time.time - lastReloadTime < reloadTime) return false;
 
 
 		if (!CheckBullets())
@@ -84,12 +84,13 @@ public abstract class Weapon : Item
 			if (autoReload)
 				Reload();
 
-			return;
+			return false;
 		}
 		if(TriggerEvent != null)
 			TriggerEvent.Invoke(this);
 
 		lastShootTime = Time.time;
+		return true;
 	}
 
 	public bool Reload()

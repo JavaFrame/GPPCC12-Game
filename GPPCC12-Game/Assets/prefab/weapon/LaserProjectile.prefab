@@ -219,7 +219,8 @@ MonoBehaviour:
   time: 5
   initRotation: {x: 0, y: 0, z: 1}
   destroyOnHit: 1
-  parentWeapon: {fileID: 0}
+  parentWeapon: {fileID: 114536008881056788, guid: c6be1c69efcec864d8e89e7fc2fb9cb6,
+    type: 2}
 --- !u!114 &114144407408436630
 MonoBehaviour:
   m_ObjectHideFlags: 1

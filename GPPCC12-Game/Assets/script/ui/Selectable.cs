@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Selectable : MonoBehaviour {
-	public static List<GameObject> SelecGameObjects = new List<GameObject>();
+	public static List<GameObject> SelectGameObjects = new List<GameObject>();
 
 	/// <summary>
 	/// If no shader was given to <see cref="SetShader"/> via argument, this shader is used.
@@ -18,7 +18,12 @@ public class Selectable : MonoBehaviour {
 
 	
 	void Awake() {
-		SelecGameObjects.Add(this.gameObject);
+		SelectGameObjects.Add(this.gameObject);
+	}
+
+	void OnDestroy()
+	{
+		SelectGameObjects.Remove(this.gameObject);
 	}
 
 	/// <summary>
@@ -29,7 +34,7 @@ public class Selectable : MonoBehaviour {
 	public void SetShader(Shader shader = null, bool secundary = false)
 	{
 		if (shader == null)
-			shader = secundary?secundarySelectShader:selectShader;
+			shader = secundary ? secundarySelectShader : selectShader;
 		Renderer renderer = GetComponent<Renderer>();
 		if (renderer != null)
 		{
@@ -40,6 +45,7 @@ public class Selectable : MonoBehaviour {
 		{
 			oldShaders.Push(null);
 		}
+
 	}
 
 	/// <summary>

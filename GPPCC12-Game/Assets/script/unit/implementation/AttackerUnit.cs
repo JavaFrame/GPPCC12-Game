@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Assertions.Comparers;
 
-[RequireComponent(typeof(NavMeshAgent))]
+
+[RequireComponent(typeof(Hurtable), typeof(Rigidbody))]
 public class AttackerUnit : Unit
 {
 	[SerializeField]
@@ -17,6 +19,8 @@ public class AttackerUnit : Unit
 	private Vector3 targetPos;
 
 	private NavMeshAgent agent;
+
+	private Rigidbody rigidbody;
 
 	private float lastRemainingDistance;
 
@@ -40,6 +44,7 @@ public class AttackerUnit : Unit
 		get { return target; }
 		set
 		{
+			rigidbody.velocity = Vector3.zero;
 			target = value;
 			targetTransform = target.transform;
 			CurrentState = preWalkAttack;
@@ -53,11 +58,13 @@ public class AttackerUnit : Unit
 		get { return targetPos; }
 		set
 		{
+			rigidbody.velocity = Vector3.zero;
 			targetPos = value;
 			CurrentState = preWalk;
 			agent.destination = value;
 			agent.stoppingDistance = 0.5f;
 			lastRemainingDistance = Vector3.Distance(targetPos, transform.position);
+			
 		}
 	}
 
@@ -97,6 +104,9 @@ public class AttackerUnit : Unit
 	void Start ()
 	{
 		base.Start();
+
+		rigidbody = GetComponent<Rigidbody>();
+
 		agent = GetComponent<NavMeshAgent>();
 		idle = RegisterState("Idle");
 		preWalk = RegisterState("Pre Walk");
@@ -137,7 +147,7 @@ public class AttackerUnit : Unit
 		{
 			if (targetPos!= agent.destination)
 				agent.destination = targetPos;
-			if (Math.Abs(lastRemainingDistance) <= Math.Abs(agent.remainingDistance))
+			if (Math.Abs(lastRemainingDistance) <= Math.Abs(agent.remainingDistance) && agent.remainingDistance != Mathf.Infinity)
 				agent.stoppingDistance = agent.remainingDistance + 0.1f;
 			lastRemainingDistance = agent.remainingDistance;
 
@@ -164,29 +174,33 @@ public class AttackerUnit : Unit
 		//walkAttack -> attack
 		AddStateChangeCondition(walkAttack, attack, state => {
             NavMeshHit hit;
-            return !agent.Raycast(targetTransform.position, out hit);
-        });
+            bool result = !agent.Raycast(targetTransform.position, out hit);
+			Debug.Log(hit.distance);
+			return result;
+		});
 
 		//attack -> walkAttack
 		AddStateChangeCondition(attack, walkAttack, state =>
+			targetTransform == null || //prevents that the check below access a already died player
 			Vector3.Distance(transform.position, targetTransform.position) > maxAttackDistance &&
 			Vector3.Distance(transform.position, targetTransform.position) < minAttackDistance);
 		//attack enter: set attack animtion on true
-		AddStateEnterListener(attack, (state, newState) => {
-            animator.SetBool(attackAnimation, true);
+		AddStateEnterListener(attack, (state, newState) =>
+		{
+			agent.stoppingDistance = agent.remainingDistance;
             StartCoroutine(Shoot());
         });
 		//attack leave: set attack animtion on false
-		AddStateLeaveListener(attack, (state, newState) => animator.SetBool(attackAnimation, false));
+		//AddStateLeaveListener(attack, (state, newState) => animator.SetBool(attackAnimation, false));
 
 		AddStateUpdateListener(attack, state =>
 		{
-            transform.rotation = Quaternion.LookRotation(targetTransform.position - agent.transform.position);
-
-			if (target.life <= 0)
+			if (targetTransform == null || target.life <= 0) 
 			{
 				CurrentState = idle;
 			}
+			if (targetTransform == null) return;
+			transform.rotation = Quaternion.LookRotation(targetTransform.position - agent.transform.position);
 		});
 	}
 
@@ -205,7 +219,10 @@ public class AttackerUnit : Unit
 
 		while (CurrentState == attack)
 		{
-			weapon.Use();
+			if (weapon.Use())
+			{
+				animator.SetTrigger(attackAnimation);
+			}
 			yield return new WaitForSeconds(weapon.shootTime);
 		}
 	}

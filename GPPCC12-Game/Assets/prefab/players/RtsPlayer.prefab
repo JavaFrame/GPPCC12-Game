@@ -1226,10 +1226,10 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Primary:'
+  m_Text: 'Primary: '
 --- !u!124 &124355552472344234
 Behaviour:
   m_ObjectHideFlags: 1
@@ -1588,9 +1588,9 @@ RectTransform:
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -393.5, y: -27.700012}
-  m_SizeDelta: {x: -787, y: 55.4}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 152.30879, y: -28.330002}
+  m_SizeDelta: {x: 304.6, y: 56.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224697832804175244
 RectTransform:
