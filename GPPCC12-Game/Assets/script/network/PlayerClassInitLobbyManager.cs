@@ -50,7 +50,8 @@ public class PlayerClassInitLobbyManager : NetworkLobbyManager
 			if(mock == null) continue;
 			mock.UpdateSelection();
 			GameObject prefab = GetPrefab(mock.playerClass);
-			GameObject player = GameObject.Instantiate(prefab);
+			Transform startPosition = GetStartPosition();
+			GameObject player = GameObject.Instantiate(prefab, startPosition.position, startPosition.rotation);
 			return player;
 		}
 

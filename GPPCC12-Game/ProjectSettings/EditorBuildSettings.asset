@@ -17,3 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MatchEnd.unity
     guid: 966a89ca77b089f4db73d9a98f6b70a4
+  - enabled: 1
+    path: Assets/MapLayout.unity
+    guid: 63b50648a24e7e5459f5ddb1e0de1627

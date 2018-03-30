@@ -18,6 +18,8 @@ public class AttackerUnit : Unit
 
 	private NavMeshAgent agent;
 
+	private float lastRemainingDistance;
+
 	[SerializeField]
 	private Animator animator;
 
@@ -29,6 +31,7 @@ public class AttackerUnit : Unit
 
 	[SerializeField]
 	private Weapon weapon;
+
 
 	private State idle, preWalk, walk, preWalkAttack, walkAttack, attack;
 
@@ -54,6 +57,7 @@ public class AttackerUnit : Unit
 			CurrentState = preWalk;
 			agent.destination = value;
 			agent.stoppingDistance = 0.5f;
+			lastRemainingDistance = Vector3.Distance(targetPos, transform.position);
 		}
 	}
 
@@ -133,6 +137,10 @@ public class AttackerUnit : Unit
 		{
 			if (targetPos!= agent.destination)
 				agent.destination = targetPos;
+			if (Math.Abs(lastRemainingDistance) <= Math.Abs(agent.remainingDistance))
+				agent.stoppingDistance = agent.remainingDistance + 0.1f;
+			lastRemainingDistance = agent.remainingDistance;
+
 		});
 		//walk -> idle
 		AddStateChangeCondition(walk, idle, state => agent.remainingDistance-agent.stoppingDistance <= 0);

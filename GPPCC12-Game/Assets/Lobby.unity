@@ -1082,7 +1082,7 @@ MonoBehaviour:
   m_LogLevel: 2
   m_PlayerPrefab: {fileID: 0}
   m_AutoCreatePlayer: 1
-  m_PlayerSpawnMethod: 0
+  m_PlayerSpawnMethod: 1
   m_OfflineScene: Lobby
   m_OnlineScene: 
   m_SpawnPrefabs:
@@ -1156,7 +1156,7 @@ MonoBehaviour:
   m_GamePlayerPrefab: {fileID: 1843976534516758, guid: f70300d0be32c9745be6e5fa245461e3,
     type: 2}
   m_LobbyScene: Lobby
-  m_PlayScene: Map
+  m_PlayScene: MapLayout
   lobbySlots: []
   players:
   - {fileID: 1843976534516758, guid: eb22a2c6dc08a7443b2ec4fa4e51fe4b, type: 2}
