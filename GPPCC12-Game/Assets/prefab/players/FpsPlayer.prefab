@@ -1447,7 +1447,7 @@ MonoBehaviour:
   runningSpeed: 10
   lookSensitivity: 3
   viewRange: 60
-  jumpForce: 150
+  jumpForce: 300
   fallMultiplier: 2.5
   lowJumpMultipler: 2
   maxJumpCounter: 1
