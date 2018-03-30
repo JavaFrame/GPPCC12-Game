@@ -173,10 +173,17 @@ public class AttackerUnit : Unit
 		});
 		//walkAttack -> attack
 		AddStateChangeCondition(walkAttack, attack, state => {
-            NavMeshHit hit;
-            bool result = !agent.Raycast(targetTransform.position, out hit);
-			Debug.Log(hit.distance);
-			return result;
+			if (targetTransform == null)
+				return true;
+
+			if (Vector3.Distance(transform.position, targetTransform.position) > maxAttackDistance &&
+			    Vector3.Distance(transform.position, targetTransform.position) < minAttackDistance)
+			{
+				return false;
+			}
+
+			NavMeshHit hit;
+            return !agent.Raycast(targetTransform.position, out hit);
 		});
 
 		//attack -> walkAttack

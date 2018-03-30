@@ -16,6 +16,7 @@ public class Spawner : NetworkBehaviour
 		private set { _spawnerInstance = value; }
 	}
 
+
 	[SerializeField]
 	private Vector3[] unitSpawnTransforms;
 	[SerializeField]
@@ -35,12 +36,21 @@ public class Spawner : NetworkBehaviour
 
 
 	[Command]
-	public void CmdSpawn(int sp, Vector3 pos, Quaternion rot)
+	public void CmdSpawn(int sp, Vector3 pos, Quaternion rot, Vector3 initVelocity)
 	{
+		Debug.Log("Hy");
 		if (sp >= 0 && sp < prefabs.Length)
 		{
 			GameObject prefab = prefabs[sp];
 			GameObject go = Instantiate(prefab, pos, rot);
+			Rigidbody rigidbody = go.GetComponent<Rigidbody>();
+			if (rigidbody != null)
+			{
+				rigidbody.AddForce(initVelocity);
+				Debug.Log("Added forece " + initVelocity);
+			} 
+			else 
+				Debug.Log("No Rigiedbody on " + go.name);
 			NetworkServer.Spawn(go);
 		}
 		else

@@ -5,9 +5,12 @@ using UnityEngine;
 public class DeathHurtable : Hurtable {
 
 	// Use this for initialization
-	void Start ()
+	protected  virtual  void Start ()
 	{
-		DiedEventHandler += (victim, from, weapon) => Destroy(this.gameObject);
+		DiedEventHandler += (victim, from, weapon) =>
+		{
+			Destroy(this.gameObject);
+		};
 		HittedEventHandler += (damage, from, weapon) =>
 			Debug.Log("Hitted by " + from.name + " with weapon " + weapon.name + ", damage:" + damage + ", health: " + life);
 	}

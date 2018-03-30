@@ -43,7 +43,7 @@ public class Projectile : Weapon {
 		startTime = Time.time;
 		_rigidbody = GetComponent<Rigidbody>();
 		_rigidbody.position += transform.forward;
-		_rigidbody.velocity = transform.forward * speed;
+		_rigidbody.velocity += transform.forward * speed;
 	}
 
 	private void Update()

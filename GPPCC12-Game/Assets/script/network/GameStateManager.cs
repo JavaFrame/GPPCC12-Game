@@ -23,27 +23,47 @@ public class GameStateManager : MonoBehaviour {
 		set { winningParty = value; }
 	}
 
+	[SerializeField]
+	private int alivePlayer = 0;
+
 
 	void Awake()
 	{
 		if(Instance != null)
-			throw new Exception("There are multiple GameStateManagers in the scene!");
+			 Destroy(Instance);
 		Instance = this;
 	}
+
+	private bool matchEnded = false;
 
 	void Start () {
 		DontDestroyOnLoad(this.gameObject);
 	}
 
+	public void PlayerSpawned()
+	{
+		alivePlayer++;
+	}
+
+	public void PlayerDied()
+	{
+		alivePlayer--;
+		if (alivePlayer <= 0)
+		{
+			RtsPlayerWon();
+		}
+	}
 
 	public void RtsPlayerWon()
 	{
+		matchEnded = true;
 		winningParty = PlayerClass.Rts;
 		PlayerClassInitLobbyManager.Instance.ChangeScene(matchEndScene);
 	}
 
 	public void FpsPlayersWon()
 	{
+		matchEnded = true;
 		winningParty = PlayerClass.Fps;
 		PlayerClassInitLobbyManager.Instance.ChangeScene(matchEndScene);
 	}

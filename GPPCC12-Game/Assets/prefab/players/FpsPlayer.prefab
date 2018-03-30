@@ -563,8 +563,8 @@ GameObject:
   - component: {fileID: 95488699733527754}
   - component: {fileID: 114108778128079572}
   - component: {fileID: 114161601994102218}
-  - component: {fileID: 114730242533548544}
   - component: {fileID: 114262064185607476}
+  - component: {fileID: 114672123428621958}
   m_Layer: 0
   m_Name: FpsPlayer
   m_TagString: Untagged
@@ -860,7 +860,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1188426381276872}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.652, z: 0.778}
+  m_LocalPosition: {x: 0, y: 1.853, z: 1.003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4915448127284248}
@@ -1128,7 +1128,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1843976534516758}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.5080414, y: 1.0000005, z: -11.585571}
+  m_LocalPosition: {x: 15.444, y: -0.0000038146973, z: 11.11618}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4906957510700272}
@@ -1504,7 +1504,7 @@ MonoBehaviour:
     i15: 75
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114730242533548544
+--- !u!114 &114672123428621958
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1512,7 +1512,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1843976534516758}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84b1d1d3f5bed054faccb02e077042cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 56f6eaf4af6cd6845acdbfabe87b0da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   life: 200

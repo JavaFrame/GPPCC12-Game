@@ -208,7 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Laser Projectile
   description: 
-  damage: 3
+  damage: 50
   maxBulletsInMagasin: -1
   maxMagasins: -1
   autoReload: 1
