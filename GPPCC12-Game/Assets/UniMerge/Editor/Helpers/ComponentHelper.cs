@@ -230,7 +230,7 @@ namespace UniMerge.Editor.Helpers {
 				// For some reason, the texture doens't show up in a foldout
 				GUILayout.Space(-colWidth + 8);
 #if Unity3
-				var guiContent = thisArg.type.Name;
+				var guiContent = thisArg.type.PlayerName;
 #else
 				var guiContent = new GUIContent(thisArg.type.Name, AssetPreview.GetMiniThumbnail(componentArg));
 #endif

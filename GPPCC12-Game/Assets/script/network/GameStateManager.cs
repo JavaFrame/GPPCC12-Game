@@ -28,9 +28,13 @@ public class GameStateManager : MonoBehaviour {
 
 
 	void Awake()
-	{
-		if(Instance != null)
-			 Destroy(Instance);
+	{ 
+		if (Instance != null)
+		{
+			Debug.Log("Destroyed GameStateManger " + Instance.name);
+			Destroy(Instance);
+		}
+
 		Instance = this;
 	}
 

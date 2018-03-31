@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4609979119916714}
   - component: {fileID: 114176056788663796}
-  - component: {fileID: 114761785998037300}
   - component: {fileID: 114570798180871490}
   m_Layer: 0
   m_Name: LobbyPlayer
@@ -73,7 +72,7 @@ MonoBehaviour:
     i14: 210
     i15: 79
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114570798180871490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,16 +84,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54db242c16cd8b54183948ca825f5f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerClass: 0
---- !u!114 &114761785998037300
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1787848339087218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 246975512, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   ShowLobbyGUI: 1
+  playerClass: 0
+  playerName: 

@@ -21,7 +21,7 @@ public class CreateMatchPanelUi : MonoBehaviour
 
 	public void CreateMatchBtn()
 	{
-		PlayerClassInitLobbyManager.Instance.matchMaker.CreateMatch(matchNameTf.text, 4, true, "", "", "", 0, 0, OnInternetMatchCreate);
+
 	}
 
 	private void OnInternetMatchCreate(bool success, string extendedinfo, MatchInfo responsedata)

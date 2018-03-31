@@ -29,14 +29,25 @@ public class PlayerClassInitLobbyManager : NetworkLobbyManager
 	public GameObject[] players;
 
 	void Awake()
-	{ 
+	{
 		if (Instance != null)
-			throw new Exception("There are multiplel PlayerClassInitLobbyManagers in the scene!");
+		{
+			Destroy(this.gameObject);
+			Debug.Log("Destroyed this PlayerClassInitLobbyManagerObject because one already exists!");
+			return;
+		}
+
 		Instance = this;
 
 		/*this.matchHost = Host;
 		this.matchPort = Port;
 		this.StartClient();*/
+	}
+
+	public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
+	{
+		MainMenu.Instance.gameObject.SetActive(false);
+		return base.OnLobbyServerSceneLoadedForPlayer(lobbyPlayer, gamePlayer);
 	}
 
 	public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
@@ -77,4 +88,33 @@ public class PlayerClassInitLobbyManager : NetworkLobbyManager
 	{
 		ServerChangeScene(scene);
 	}
+
+	public override void OnClientConnect(NetworkConnection conn)
+	{
+		MainMenu.Instance.ShowLobbyPanel();
+		base.OnClientConnect(conn);
+	}
+
+	public override void OnClientError(NetworkConnection conn, int errorCode)
+	{
+		MainMenu.Instance.SetMessageText("An error occured (" + errorCode + ")");
+		base.OnClientError(conn, errorCode);
+	}
+
+	public override void OnClientDisconnect(NetworkConnection conn)
+	{
+		MainMenu.Instance.ShowMainPanel();
+		base.OnClientDisconnect(conn);
+	}
+
+	public override void OnLobbyServerPlayersReady()
+	{
+		///StartCoroutine(ReadyCountdownRoutine());
+		base.OnLobbyServerPlayersReady();
+	}
+
+	/*IEnumerator ReadyCountdownRoutine()
+	{
+		yield return new W
+	}*/
 } 

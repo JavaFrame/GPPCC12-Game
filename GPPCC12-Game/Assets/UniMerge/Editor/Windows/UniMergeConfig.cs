@@ -63,8 +63,8 @@ namespace UniMerge.Editor.Windows {
 			EditorGUILayout.LabelField("Default Skin", DefaultGuiSkinFilename);
 			EditorGUILayout.LabelField("Dark Skin", DarkGuiSkinFilename);
 			EditorGUILayout.LabelField("Plugin Path", DefaultPath);
-			EditorGUILayout.LabelField("List Style Name", ListStyleName);
-			EditorGUILayout.LabelField("List Alt Style Name", ListAltStyleName);
+			EditorGUILayout.LabelField("List Style PlayerName", ListStyleName);
+			EditorGUILayout.LabelField("List Alt Style PlayerName", ListAltStyleName);
 			EditorGUILayout.LabelField("Conflict Suffix", ConflictSuffix);
 
 			GUILayout.Label(new GUIContent(

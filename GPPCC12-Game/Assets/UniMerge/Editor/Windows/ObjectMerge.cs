@@ -324,7 +324,7 @@ namespace UniMerge.Editor.Windows {
 				string filt = "Filtering: ";
 				if(filterTypes.Count > 0){
 					foreach(System.Type bad in filterTypes)
-						filt += bad.Name + ", ";
+						filt += bad.PlayerName + ", ";
 					GUILayout.Label(filt.Substring(0, filt.Length - 2));
 				}
 				string err = "Sorry, the following types are invalid: ";
@@ -1022,7 +1022,7 @@ namespace UniMerge.Editor.Windows {
 					bool found = false;
 					foreach(System.Reflection.Assembly asm in assemblies){
 						foreach(System.Type t in asm.GetTypes()){
-							if(t.Name.ToLower() == filter.ToLower()){
+							if(t.PlayerName.ToLower() == filter.ToLower()){
 								if(t.IsSubclassOf(typeof(Component))){
 									filterTypes.Add(t);
 								} else notComponents.Add(filter);

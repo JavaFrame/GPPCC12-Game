@@ -177,7 +177,7 @@ namespace GitMerge
                         if(MergeManager.isMergingPrefab)
                         {
                             //If merging a prefab, ignore the gameobject name.
-                            if(ourProperty.GetPlainName() == "Name")
+                            if(ourProperty.GetPlainName() == "PlayerName")
                             {
                                 continue;
                             }
