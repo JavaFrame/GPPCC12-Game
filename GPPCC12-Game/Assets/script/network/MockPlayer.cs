@@ -72,8 +72,8 @@ public class MockPlayer : NetworkLobbyPlayer
 
 	void Update()
 	{
-		/*if(lastReady != readyToBegin && PlayerReadyEvent != null)
-			PlayerReadyEvent.Invoke(readyToBegin);*/
+		if(lastReady != readyToBegin && PlayerReadyEvent != null)
+			PlayerReadyEvent.Invoke(readyToBegin);
 		lastReady = readyToBegin;
 	}
 

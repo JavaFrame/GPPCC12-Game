@@ -46,6 +46,7 @@ public abstract class Hurtable : NetworkBehaviour
 	void Awake()
 	{
 		life = maxLife;
+		CmdSetLife(life);
 	}
 
 	/// <summary>
@@ -58,6 +59,7 @@ public abstract class Hurtable : NetworkBehaviour
 	{
 		if (!isServer) return;
 		this.life -= damage;
+		CmdSetLife(life);
 		if (this.life <= 0)
 		{
 			this.life = 0;
@@ -66,5 +68,11 @@ public abstract class Hurtable : NetworkBehaviour
 		}
 		if(HittedEventHandler != null)
 			HittedEventHandler.Invoke(damage, from, weapon);
+	}
+
+	[Command]
+	protected void CmdSetLife(int life)
+	{
+		this.life = life;
 	}
 }

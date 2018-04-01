@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.Match;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
@@ -15,7 +16,22 @@ public class MainMenu : MonoBehaviour
 	private PlayerClassInitLobbyManager lobby;
 
 	[SerializeField]
-	private GameObject mainPanelGo, joinMatchGo, createMatchGo, lobbyGo, messageGo;
+	private GameObject mainPanelGo, joinMatchGo, matchMakingGo, lobbyGo, messageGo;
+
+	[Space]
+	[Header("Matchmaking Panel")]
+
+	[SerializeField]
+	private Transform mmJoinMatchListSpawnEntry;
+
+	[SerializeField]
+	private GameObject mmJoinMatchListEntryPrefab;
+
+	[SerializeField]
+	private InputField mmCreateMatchName;
+
+	[SerializeField]
+	private Button mmCreateMatchBtn;
 
 	[Space]
 	[Header("LAN Panel")]
@@ -83,6 +99,8 @@ public class MainMenu : MonoBehaviour
 
 	void Awake()
 	{
+		if(Instance != null)
+			Destroy(Instance.gameObject);
 		Instance = this;
 	}
 
@@ -92,13 +110,18 @@ public class MainMenu : MonoBehaviour
 		ShowMainPanel();
 		lobbyPlayerName.onValueChanged.AddListener(name => { MockPlayer.LocalMockPlayer.PlayerName = name; });
 		DontDestroyOnLoad(this.gameObject);
+
+		lobby.StartMatchMaker();
 	}
 
 	void Update()
 	{
 		//lan
-		lanCreateBtn.enabled = !lanCreateIpTf.text.Trim().Equals("") && !lanCreatePortTf.text.Trim().Equals(""); 
-		lanJoinBtn.enabled = !lanJoinIpTf.text.Trim().Equals("") && !lanJoinPortTf.text.Trim().Equals(""); 
+		lanCreateBtn.interactable = !lanCreateIpTf.text.Trim().Equals("") && !lanCreatePortTf.text.Trim().Equals(""); 
+		lanJoinBtn.interactable = !lanJoinIpTf.text.Trim().Equals("") && !lanJoinPortTf.text.Trim().Equals(""); 
+
+		//mm
+		mmCreateMatchBtn.interactable = !mmCreateMatchName.text.Trim().Equals("");
 	}
 
 	public void ShowLanPanel()
@@ -116,8 +139,8 @@ public class MainMenu : MonoBehaviour
 	public void ShowMatchmakingPanel()
 	{
 		HideAll();
-		createMatchGo.SetActive(true);
-
+		matchMakingGo.SetActive(true);
+		RefreshMMList();
 	}
 
 	public void ShowLobbyPanel()
@@ -126,36 +149,85 @@ public class MainMenu : MonoBehaviour
 		lobbyGo.SetActive(true);
 	}
 
-	public void ShowMessagePanel(string text = "", Action backDelegater = null)
+	public void ShowMessagePanel(string text = "", Action backDelegater = null, bool overrideBackDelegator = true)
 	{
 		HideAll();
 		messageGo.SetActive(true);
 		SetMessageText(text);
-		messageBackBtn.gameObject.SetActive(backDelegater != null);
-		messageBackBtn.onClick.RemoveAllListeners();
-		messageBackBtn.onClick.AddListener(() =>
+		if (overrideBackDelegator)
 		{
-			if (backDelegater != null)
-				backDelegater.Invoke();
-		});
+			messageBackBtn.gameObject.SetActive(backDelegater != null);
+			messageBackBtn.onClick.RemoveAllListeners();
+			messageBackBtn.onClick.AddListener(() =>
+			{
+				if (backDelegater != null)
+					backDelegater.Invoke();
+			});
+		}
 	}
 
 	private void HideAll()
 	{
 		joinMatchGo.SetActive(false);
 		mainPanelGo.SetActive(false);
-		createMatchGo.SetActive(false);
+		matchMakingGo.SetActive(false);
 		lobbyGo.SetActive(false);
 		messageGo.SetActive(false);
+	}
+
+	//matchmaking (mm) panel
+
+	public void RefreshMMList()
+	{
+		lobby.matchMaker.ListMatches(0, 10, "", true, 0, 0, (success, info, matches) =>
+		{
+			if (success)
+			{
+				//Clearing the match list
+				foreach(Transform child in mmJoinMatchListSpawnEntry)
+					GameObject.Destroy(child.gameObject);
+
+				foreach (MatchInfoSnapshot ms in matches)
+				{
+					GameObject entry = Instantiate(mmJoinMatchListEntryPrefab, mmJoinMatchListSpawnEntry);
+					MatchMakeMatchUi entryController = entry.GetComponent<MatchMakeMatchUi>();
+					entryController.MatchInfo = ms;
+				}
+			}
+		});
+	}
+
+	public void CreateMMMatch()
+	{
+		ShowMessagePanel("Creating a match...", () =>
+		{
+			ShowMatchmakingPanel();
+			lobby.StopHost();
+		});
+		string mmName = mmCreateMatchName.text;
+		lobby.matchMaker.CreateMatch(mmName, 4, true, "", "", "", 0, 0, (success, info, matchInfo) =>
+		{
+			if (success)
+			{
+				MatchInfo hostInfo = matchInfo;
+				lobby.StartHost(hostInfo);
+			}
+			else
+			{
+				Debug.LogError("Creating a match failed because: " + info);
+				SetMessageText("Creating a match failed because: " + info);
+			}
+		});
+
 	}
 
 	//lan panel
 	public void CreateLanMatch()
 	{
-		lobby.matchHost = lanCreateIpTf.text;
-		lobby.matchPort = Convert.ToInt32(lanCreatePortTf.text);
+		lobby.networkAddress = lanCreateIpTf.text;
+		lobby.networkPort = Convert.ToInt32(lanCreatePortTf.text);
 		lobby.StartHost();
-		ShowMessagePanel("Creating Server...", () =>
+		ShowMessagePanel("Creating Server on port " + lobby.networkPort +" ...", () =>
 		{
 			ShowLanPanel();
 			lobby.StopHost();
@@ -164,10 +236,10 @@ public class MainMenu : MonoBehaviour
 
 	public void JoinLanMatch()
 	{
-		lobby.matchHost = lanJoinIpTf.text;
-		lobby.matchPort = Convert.ToInt32(lanJoinPortTf.text);
+		lobby.networkAddress = lanJoinIpTf.text;
+		lobby.networkPort = Convert.ToInt32(lanJoinPortTf.text);
 		lobby.StartClient();
-		ShowMessagePanel("Connecting to " + lobby.matchHost + ":" + lobby.matchPort, () =>
+		ShowMessagePanel("Connecting to " + lobby.networkAddress + ":" + lobby.networkPort, () =>
 		{
 			ShowLanPanel();
 			lobby.StopClient();
@@ -195,15 +267,24 @@ public class MainMenu : MonoBehaviour
 
 	public void RemovePlayerFromLobbyList(MockPlayer p)
 	{
-		Destroy(lobbyPlayerDictionary[p]);
-		lobbyPlayerDictionary.Remove(p);
+		if (lobbyPlayerDictionary.ContainsKey(p))
+		{
+			Destroy(lobbyPlayerDictionary[p]);
+			lobbyPlayerDictionary.Remove(p);
+		}
+
 		lobbyConnectedPlayerText.text = lobbyPlayerDictionary.Count + " / " + lobby.maxPlayers + " Players";
 	}
 
 	public void ReadyToggleChanged(bool val)
 	{
-		//MockPlayer.LocalMockPlayer.readyToBegin = val; 
-		MockPlayer.LocalMockPlayer.SendReadyToBeginMessage();
+		MockPlayer.LocalMockPlayer.readyToBegin = val; 
+		if(val)
+			MockPlayer.LocalMockPlayer.SendReadyToBeginMessage();
+		else
+			MockPlayer.LocalMockPlayer.SendNotReadyToBeginMessage();
+		lobbyPlayerName.interactable = !val;
+		lobbyClassDropdown.interactable = !val;
 	}
 
 	//mesage panel

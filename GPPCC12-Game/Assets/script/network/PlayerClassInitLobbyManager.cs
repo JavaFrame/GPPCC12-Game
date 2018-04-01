@@ -103,7 +103,8 @@ public class PlayerClassInitLobbyManager : NetworkLobbyManager
 
 	public override void OnClientDisconnect(NetworkConnection conn)
 	{
-		MainMenu.Instance.ShowMainPanel();
+		//MainMenu.Instance.ShowMainPanel();
+		MainMenu.Instance.ShowMessagePanel("Client disconnected because of: " + conn.lastError.ToString(), null, false);
 		base.OnClientDisconnect(conn);
 	}
 
